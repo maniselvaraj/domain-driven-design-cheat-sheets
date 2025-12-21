@@ -687,6 +687,10 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
     - **Integration:** Support queries Order, Fulfillment, Delivery for issue resolution
     - **Rationale:** Support needs read access across contexts for troubleshooting
 
+### Visual Context Map
+
+For a comprehensive visual representation of all bounded contexts, their domain objects, relationships, and integration patterns, see the [Visual Context Map](context_map.md).
+
 ---
 
 ## Key Design Decisions & Rationale
