@@ -81,9 +81,60 @@ Event Storming is a collaborative modeling technique used in Phase 1 (Domain Dis
 
 ### Key Elements
 
-- **Domain Events**: Written on orange sticky notes using past tense verbs (e.g., "order accepted")
-- **Timeline**: Events arranged chronologically
-- **Participants**: Domain experts and software engineers working together
+Event Storming uses different colored sticky notes to represent different concepts:
+
+#### Domain Events (Orange Sticky Notes)
+
+**Definition:** A domain event is something that happened in the domain that domain experts care about. It represents a fact that has already occurred and cannot be changed.
+
+**Characteristics:**
+- **Past tense naming**: Always named with past-tense verbs (e.g., "OrderPlaced", "PaymentReceived", "CustomerRegistered")
+- **Immutable**: Once an event has happened, it cannot be undone (though compensating events can be created)
+- **Business-relevant**: Represents something meaningful to the business, not technical occurrences
+- **Time-stamped**: Events capture when something happened
+- **State change**: Indicates that the system's state has changed
+
+**Examples:**
+- "Order Placed"
+- "Payment Authorized"
+- "Item Shipped"
+- "Customer Registered"
+- "Inventory Depleted"
+
+**Purpose in Event Storming:** Domain events are the primary building blocks. They capture the essential business facts and form the timeline of what happens in the domain.
+
+#### Commands (Blue Sticky Notes)
+
+**Definition:** A command is an intention or request to perform an action in the system. It represents what a user or system wants to do, which may succeed or fail.
+
+**Characteristics:**
+- **Imperative naming**: Named with imperative verbs in present tense (e.g., "PlaceOrder", "ProcessPayment", "RegisterCustomer")
+- **Can be rejected**: Unlike events, commands can fail if business rules are violated
+- **Trigger events**: Successful commands typically result in one or more domain events
+- **Express intent**: Represents a desire to change the system's state
+- **User/system initiated**: Comes from actors (users, external systems, time-based triggers)
+
+**Examples:**
+- "Place Order"
+- "Cancel Subscription"
+- "Add Item to Cart"
+- "Process Refund"
+- "Update Inventory"
+
+**Command → Event Relationship:**
+- Command: "Place Order" → Event: "Order Placed" (if successful)
+- Command: "Process Payment" → Events: "Payment Authorized", "Payment Captured" OR "Payment Failed"
+- Command: "Register Customer" → Event: "Customer Registered"
+
+**Purpose in Event Storming:** Commands help identify the triggers for domain events and reveal business processes and user interactions.
+
+#### Other Event Storming Elements
+
+- **Actors (Small Yellow Sticky Notes)**: People or systems that trigger commands
+- **Read Models/Queries (Green Sticky Notes)**: Information needed to make decisions
+- **Policies/Business Rules (Lilac Sticky Notes)**: Automated reactions ("Whenever X happens, then do Y")
+- **Aggregates (Large Yellow Sticky Notes)**: Clusters that handle commands and produce events
+- **External Systems (Pink Sticky Notes)**: Third-party systems that interact with the domain
 
 ### Benefits
 

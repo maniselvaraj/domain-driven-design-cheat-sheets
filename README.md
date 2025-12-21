@@ -9,6 +9,7 @@ Collection of notes on DDD curated by AI
 
 ## Case Studies
 - [Online Photo Printing Service - DDD Design](online_photo_store.md)
+  - [Visual Context Map](context_map.md)
 
 ## Resources
 - [References](references.md)
