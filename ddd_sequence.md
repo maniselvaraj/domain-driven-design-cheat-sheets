@@ -6,10 +6,9 @@
 2. [Event Storming Process](#event-storming-process)
 3. [Techniques to Identify Bounded Contexts](#techniques-to-identify-bounded-contexts)
 4. [Techniques to Identify Aggregates](#techniques-to-identify-aggregates)
-5. [Distillation Process](#distillation-process)
-6. [How to Identify Domain Types](#how-to-identify-domain-types)
-7. [Factory-Repository Workflow](#factory-repository-workflow)
-8. [Hierarchical Relationship of DDD Concepts](#hierarchical-relationship-of-ddd-concepts)
+5. [How to Identify Domain Types](#how-to-identify-domain-types)
+6. [Factory-Repository Workflow](#factory-repository-workflow)
+7. [Hierarchical Relationship of DDD Concepts](#hierarchical-relationship-of-ddd-concepts)
 
 ## High-Level Process
 
@@ -152,33 +151,6 @@ Align stream-aligned teams with bounded contexts.
 - Minimize aggregate size to improve performance and reduce contention
 - Minimize cross-aggregate relationships to maintain loose coupling
 - Use aggregate IDs and eventual consistency to manage relationships between aggregates
-
-## Distillation Process
-
-Distillation is the process of refining a large domain model to extract and highlight its essential core, separating it from supporting parts.
-
-### Produces Three Domain Types
-
-#### 1. Core Domain
-- The essence - unique business value
-- Differentiating competitive advantage
-- Requires best developers
-- Deserves deep modeling investment
-- Should be kept small
-
-#### 2. Generic Subdomains
-- Necessary but not unique
-- Could buy off-the-shelf
-- Well-understood problems
-- Lower priority, junior developers OK
-- **Examples**: Authentication, email, routing, payment processing
-
-#### 3. Supporting Subdomains
-- Business-specific but not core differentiator
-- Required for operations, moderate complexity
-- Moderate investment - pragmatic approach
-- **Examples**: Custom workflows, regulatory compliance, integration adapters
-- Rarely can buy - too specific but not strategic
 
 ## How to Identify Domain Types
 
