@@ -1,5 +1,25 @@
 # Domain-Driven Design Definitions
 
+## Table of Contents
+
+1. [Domain-Driven Design (DDD)](#1-domain-driven-design-ddd)
+2. [Domain](#2-domain)
+3. [Model](#3-model)
+4. [Ubiquitous Language](#4-ubiquitous-language)
+5. [Entity](#5-entity)
+6. [Value Objects](#6-value-objects)
+7. [Service](#7-service)
+8. [Service vs Entity](#8-service-vs-entity)
+9. [Aggregate](#9-aggregate)
+10. [Factory](#10-factory)
+11. [Repository](#11-repository)
+12. [Context](#12-context)
+13. [Bounded Context](#13-bounded-context)
+14. [Context Map](#14-context-map)
+15. [Integration Patterns Between Contexts](#15-integration-patterns-between-contexts)
+16. [Distillation Process](#16-distillation-process)
+17. [Types of Domains](#17-types-of-domains)
+
 ## 1. Domain-Driven Design (DDD)
 
 Domain-Driven Design is a software development approach that focuses on creating software deeply rooted in the business domain it serves. It emphasizes creating a model that accurately captures the core concepts and elements of the domain, then implementing that model directly in code. DDD combines design and development practices to ensure software fits harmoniously with the domain, making the code a reflection of the domain itself.
@@ -148,7 +168,127 @@ An Aggregate is a cluster of associated domain objects (Entities and Value Objec
    ```
    The Order root controls all line items. Line item IDs only make sense within their order context.
 
-## 10. Context
+## 10. Factory
+
+A Factory is an object responsible for encapsulating the knowledge and logic necessary to create complex objects or entire Aggregates. It handles the construction process, ensuring all invariants are met and objects are created in a valid, complete state.
+
+**Characteristics:**
+- Encapsulates creation logic - hides complex construction details from clients
+- Ensures atomicity - creates objects completely or not at all (fails with exception if invalid)
+- Enforces invariants - guarantees all business rules are satisfied at creation time
+- Creates complete aggregates - when creating an aggregate, creates the root along with all required internal objects
+- Part of domain design - belongs to the domain layer
+- No client dependency on concrete classes - client doesn't need to know implementation details
+
+**When to Use a Factory:**
+- Construction is complicated
+- Creating dependent objects is needed
+- Object creation requires enforcing invariants
+- Need to hide concrete class implementations
+
+**When NOT to Use (use simple constructor instead):**
+- Construction is simple
+- No creation of dependent objects needed
+- All attributes passed via constructor
+- Client interested in choosing implementation/strategy
+
+**Examples:**
+
+1. **RouteFactory:**
+   ```
+   RouteFactory
+     - getNextID() → generates unique ID (e.g., R2345)
+     - createRoute(constraint, cities[]) → creates complete Route
+       - Creates new Route entity with generated ID
+       - Initializes constraint
+       - Creates and associates City value objects
+       - Returns fully formed, valid Route
+   ```
+
+2. **Container Factory Method:**
+   ```
+   Container (Aggregate Root)
+     - createComponent(Type t) → Factory Method
+       - Determines concrete component class based on type
+       - Instantiates new component
+       - Adds component to container's collection
+       - Enforces container-component relationship
+       - Returns component to client
+   ```
+
+## 11. Repository
+
+A Repository is an object that encapsulates the logic for accessing domain objects from persistent storage, providing the illusion of an in-memory collection. It acts as a storage and retrieval mechanism for Aggregate Roots.
+
+**Characteristics:**
+- Storage abstraction - hides persistence infrastructure details from domain layer
+- Collection illusion - provides interface like an in-memory collection
+- Aggregate root access - only provides repositories for Aggregate Roots, not internal objects
+- Query interface - offers methods to retrieve objects by criteria (ID, attributes, specifications)
+- Add/remove operations - methods to store and delete objects
+- Encapsulates retrieval - whether from cache, database, or other storage is hidden
+- Reconstitutes objects - returns fully instantiated domain objects, not raw data
+
+**Why Repository is Important:**
+- Decouples domain from infrastructure
+- Prevents model corruption
+- Maintains aggregate integrity
+- Simplifies testing
+- Centralizes access logic
+- Supports multiple storage strategies
+
+**Relationship with Factory:**
+- Factory creates NEW objects from scratch
+- Repository retrieves EXISTING objects from storage
+- When adding a new object to Repository, create it with Factory first, then store it
+
+**Examples:**
+
+1. **CustomerRepository:**
+   ```
+   CustomerRepository
+     - findCustomer(string id) → Customer
+       // Retrieves customer by ID from database
+
+     - findCustomers(Criteria c) → Collection<Customer>
+       // Returns all matching customers
+
+     - addCustomer(Customer customer) → void
+       // Persists new customer to database
+
+     - removeCustomer(string id) → void
+       // Deletes customer and all dependent data
+   ```
+
+   **Usage flow:**
+   ```
+   // Factory creates the object
+   Customer newCustomer = customerFactory.createCustomer("C0123");
+
+   // Repository stores it
+   customerRepository.addCustomer(newCustomer);
+
+   // Later, retrieve it
+   Customer customer = customerRepository.findCustomer("C0123");
+   ```
+
+2. **OrderRepository:**
+   ```
+   OrderRepository
+     - findOrder(orderId) → Order
+       // Retrieves order with all line items
+
+     - findOrdersByCustomer(customerId) → Collection<Order>
+       // Returns all orders for a customer
+
+     - findPendingOrders() → Collection<Order>
+       // Uses specification/criteria pattern
+
+     - save(Order order) → void
+       // Persists order and all line items atomically
+   ```
+
+## 12. Context
 
 The set of conditions and boundaries where a model's terms have specific, unambiguous meaning.
 
@@ -162,7 +302,7 @@ The set of conditions and boundaries where a model's terms have specific, unambi
 
 **Solution:** Consciously divide into multiple bounded contexts with explicit boundaries and relationships.
 
-## 11. Bounded Context
+## 13. Bounded Context
 
 An explicit boundary within which a domain model is unified and terms have precise meaning.
 
@@ -207,7 +347,7 @@ An explicit boundary within which a domain model is unified and terms have preci
    - Transactions, posting, reconciliation
    - Customer just an ID reference here
 
-## 12. Context Map
+## 14. Context Map
 
 A document outlining all Bounded Contexts and their relationships/integration points.
 
@@ -219,7 +359,7 @@ A document outlining all Bounded Contexts and their relationships/integration po
 - Supports architecture decisions
 - Serves as an onboarding tool
 
-## 13. Integration Patterns Between Contexts
+## 15. Integration Patterns Between Contexts
 
 **1. Shared Kernel**
 - Two teams share subset of model
@@ -253,3 +393,65 @@ A document outlining all Bounded Contexts and their relationships/integration po
 **7. Published Language**
 - Common exchange format (XML, JSON schema)
 - Often used with Open Host Service
+
+## 16. Distillation Process
+
+Distillation is the process of refining a large domain model to extract and highlight its essential core, separating it from supporting parts.
+
+**What It Produces:**
+
+The distillation process identifies and separates three distinct components:
+
+1. **Core Domain** - The essence that provides unique business value and competitive advantage
+2. **Supporting Subdomains** - Business-specific functionality required for operations but not core differentiators
+3. **Generic Subdomains** - Necessary but not unique, well-understood problems with standard solutions
+
+**Key Principle:** "Justify investment in any other part by how it supports the distilled Core."
+
+## 17. Types of Domains
+
+### Core Domain
+- **What:** Business differentiator and competitive advantage
+- **Characteristics:** Proprietary, strategic, requires deep expertise
+- **Investment:** Maximum - best developers, deep modeling
+- **Can buy?** No
+- **Examples:** Netflix recommendation engine, trading algorithms, collision detection
+
+**Tests to Identify:**
+- Competitive advantage? (differentiates us)
+- Proprietary knowledge? (unique expertise)
+- Strategic value? (mission-critical)
+- Worth best developers? (justify investment)
+
+### Supporting Subdomain
+- **What:** Business-specific but not core differentiator
+- **Characteristics:** Required for operations, moderate complexity
+- **Investment:** Moderate - pragmatic approach
+- **Can buy?** Rarely - too specific but not strategic
+- **Examples:** Custom workflows, regulatory compliance, integration adapters
+
+**Tests to Identify:**
+- Business-specific but not core?
+- Can't easily buy? (too customized)
+- Operational necessity? (required but not innovative)
+
+### Generic Subdomain
+- **What:** Necessary but not unique - commodity functionality
+- **Characteristics:** Well-understood, universal, standard solutions exist
+- **Investment:** Minimal - junior devs, off-the-shelf preferred
+- **Can buy?** Yes - often should
+- **Examples:** Authentication, email, payment processing, PDF generation, routing
+
+**Tests to Identify:**
+- Universal need? (every business needs this)
+- Can buy? (off-the-shelf exists)
+- Standard solution? (well-understood)
+- Complexity without value? (necessary but not differentiating)
+
+### Comparison Table
+
+| Type | Value | Uniqueness | Investment | Can Buy |
+|------|-------|------------|------------|---------|
+| Core | Highest | Proprietary | Maximum | No |
+| Supporting | Medium | Specific | Moderate | Rarely |
+| Generic | Low | Universal | Minimal | Yes |
