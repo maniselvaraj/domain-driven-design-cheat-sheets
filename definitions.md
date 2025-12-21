@@ -18,8 +18,9 @@
 14. [Bounded Context](#14-bounded-context)
 15. [Context Map](#15-context-map)
 16. [Integration Patterns Between Contexts](#16-integration-patterns-between-contexts)
-17. [Distillation Process](#17-distillation-process)
-18. [Types of Domains](#18-types-of-domains)
+17. [Subdomain](#17-subdomain)
+18. [Distillation Process](#18-distillation-process)
+19. [Types of Domains](#19-types-of-domains)
 
 ## 1. Domain-Driven Design (DDD)
 
@@ -29,13 +30,41 @@ Domain-Driven Design is a software development approach that focuses on creating
 
 ## 2. Domain
 
-A domain is the sphere of knowledge and activity around which business processes operate - essentially the real-world problem space that software is meant to address. It's the business processes being automated or the real business problems that the software aims to solve.
+**Definition:** The problem space that a business occupies and provides solutions to.
 
-**Example:** In a banking application, the domain includes concepts like accounts, transactions, customers, and financial rules.
+A domain encompasses everything that the business must contend with, including:
+- Rules and processes
+- Ideas and concepts
+- Business-specific terminology
+- Anything related to its problem space, regardless of whether or not the business concerns itself with it
+
+**Key Principle:** The domain exists regardless of the existence of the business.
+
+The domain is the real-world problem space that software is meant to address - the business processes being automated or the real business problems that the software aims to solve.
+
+**Example:** In a banking application, the domain includes concepts like accounts, transactions, customers, financial rules, regulatory compliance, risk management, and market conditions - whether the bank actively manages all these aspects or not.
 
 ## 3. Model
 
-A model is a rigorously organized and selective abstraction of domain knowledge - it's the internal representation of the target domain. According to Eric Evans, "a domain model is not a particular diagram; it is the idea that the diagram is intended to convey." It's a way of structuring knowledge about the domain, synthesizing thinking about core concepts, relationships, and behaviors into a form that can be expressed in software.
+**Definition:** An abstraction of the actual domain useful for business purposes.
+
+A model is a rigorously organized and selective abstraction of domain knowledge - it's the internal representation of the target domain. The pieces and properties of the domain that are most important to the business are used to generate the model.
+
+**Key Principle:** According to Eric Evans, "a domain model is not a particular diagram; it is the idea that the diagram is intended to convey."
+
+**Domain Model Characteristics:**
+- Part of the **solution space** (a construct the business uses to solve problems)
+- Focuses on business priorities and what matters most
+- Synthesizes thinking about core concepts, relationships, and behaviors into a form that can be expressed in software
+
+**The main domain model of a business is discernible through:**
+- The products the business provides its customers
+- The interfaces by which customers interact with the products
+- The various other processes and functions by which the business fulfills its stated goals
+
+**Evolution:** Models often need to be refined as the domain changes and as business priorities shift.
+
+**Subdomain Model:** A subdomain can have its own model, which is essentially a domain model in its own right, focused on that specific subset of responsibilities.
 
 ## 4. Ubiquitous Language
 
@@ -329,7 +358,24 @@ The set of conditions and boundaries where a model's terms have specific, unambi
 
 ## 14. Bounded Context
 
+**Definition:** The logical boundaries, including the inputs, outputs, events, requirements, processes, and data models, relevant to the subdomain.
+
 An explicit boundary within which a domain model is unified and terms have precise meaning.
+
+**Key Principles:**
+
+**Alignment with Subdomains:** While ideally a bounded context and a subdomain will be in complete alignment, legacy systems, technical debt, and third-party integrations often create exceptions.
+
+**Solution Space Property:** Bounded contexts are a property of the solution space and have a significant impact on how microservices interact with one another.
+
+**High Cohesion:** Bounded contexts should be highly cohesive:
+- Internal operations should be intensive and closely related
+- Vast majority of communication occurs internally rather than cross-boundary
+- Highly cohesive responsibilities allow for reduced design scope and simpler implementations
+
+**Loose Coupling:** Connections between bounded contexts should be loosely coupled:
+- Changes made within one bounded context should minimize or eliminate the impact on neighboring contexts
+- Reduces dependencies and allows independent evolution
 
 **Characteristics:**
 - Explicit boundaries - clear demarcation where model applies
@@ -419,7 +465,37 @@ A document outlining all Bounded Contexts and their relationships/integration po
 - Common exchange format (XML, JSON schema)
 - Often used with Open Host Service
 
-## 17. Distillation Process
+## 17. Subdomain
+
+**Definition:** A component of the main domain.
+
+Each subdomain focuses on a specific subset of responsibilities and typically reflects some of the business's organizational structure (such as Warehouse, Sales, and Engineering).
+
+**Key Characteristics:**
+- **Problem space property:** Subdomains, like the domain itself, belong to the problem space
+- **Domain in its own right:** A subdomain can be seen as a domain in its own right
+- **Organizational alignment:** Often reflects the business's organizational structure
+- **Focused responsibilities:** Each subdomain has a specific subset of responsibilities
+- **Has its own model:** Can have its own domain model focused on its specific concerns
+
+**Examples:**
+- **E-commerce Domain** might have subdomains like:
+  - Catalog Management
+  - Order Processing
+  - Inventory Management
+  - Customer Service
+  - Payment Processing
+
+- **Banking Domain** might have subdomains like:
+  - Account Management
+  - Loan Processing
+  - Risk Assessment
+  - Compliance
+  - Customer Relationship Management
+
+**Relationship to Bounded Contexts:** While ideally a subdomain and a bounded context align perfectly, in practice they may differ due to legacy systems, technical debt, or third-party integrations.
+
+## 18. Distillation Process
 
 Distillation is the process of refining a large domain model to extract and highlight its essential core, separating it from supporting parts.
 
@@ -433,7 +509,7 @@ The distillation process identifies and separates three distinct components:
 
 **Key Principle:** "Justify investment in any other part by how it supports the distilled Core."
 
-## 18. Types of Domains
+## 19. Types of Domains
 
 ### Core Domain
 
