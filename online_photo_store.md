@@ -47,53 +47,83 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ## Subdomains
 
 ### 1. **Customer Management** (Supporting Subdomain)
+
 **Type:** Supporting
+
 **Justification:** Necessary for operations but not the core differentiator. Many businesses need customer management.
+
 **Responsibilities:** User identity, profiles, authentication, preferences
 
 ### 2. **Photo Processing & Library** (Core Domain)
+
 **Type:** Core
+
 **Justification:** The ability to ingest, validate, and prepare photos for printing is central to the business value. Quality checks and format handling are proprietary.
+
 **Responsibilities:** Photo upload, validation, storage, editing, quality assessment
 
 ### 3. **Product Catalog** (Supporting Subdomain)
+
 **Type:** Supporting
+
 **Justification:** Required for business operations but catalog management itself is not unique.
+
 **Responsibilities:** Product definitions, pricing, print configurations
 
 ### 4. **Order Management** (Core Domain)
+
 **Type:** Core
+
 **Justification:** Converting customer intent into print orders with proper configuration is critical business logic.
+
 **Responsibilities:** Cart, order placement, order lifecycle, status tracking
 
 ### 5. **Payment Processing** (Generic Subdomain)
+
 **Type:** Generic
+
 **Justification:** Standard capability available off-the-shelf through payment gateways.
+
 **Responsibilities:** Payment authorization, capture, refunds
 
 ### 6. **Print Fulfillment** (Core Domain)
+
 **Type:** Core
+
 **Justification:** Managing print production, quality, and partner coordination is a key differentiator.
+
 **Responsibilities:** Print job submission, production tracking, quality assurance, reprints
 
 ### 7. **Delivery & Logistics** (Supporting Subdomain)
+
 **Type:** Supporting
+
 **Justification:** Business-specific coordination but leverages third-party delivery services.
+
 **Responsibilities:** Delivery scheduling, partner integration, tracking
 
 ### 8. **Notifications** (Generic Subdomain)
+
 **Type:** Generic
+
 **Justification:** Standard communication capability, can use off-the-shelf notification services.
+
 **Responsibilities:** Email, SMS, push notifications
 
 ### 9. **Customer Support** (Supporting Subdomain)
+
 **Type:** Supporting
+
 **Justification:** Necessary for operations, handles business-specific issues but not core innovation.
+
 **Responsibilities:** Ticket management, issue resolution, refunds/reprints
 
 ### 10. **Analytics & Insights** (Supporting Subdomain)
+
 **Type:** Supporting
+
 **Justification:** Business intelligence needed for optimization but not the primary value proposition.
+
 **Responsibilities:** Reporting, metrics, business intelligence
 
 ---
@@ -101,8 +131,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ## Bounded Contexts
 
 ### 1. **Customer Context**
+
 **Alignment:** Customer Management Subdomain
+
 **Ubiquitous Language:** User, Profile, Address, Preferences, Authentication
+
 **Bounded Context Rationale:** Clear boundary around user identity and profile management. Minimal coupling with other contexts.
 
 **Integration Points:**
@@ -112,8 +145,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 2. **Photo Library Context**
+
 **Alignment:** Photo Processing & Library Subdomain (Core)
+
 **Ubiquitous Language:** Photo, Album, Upload, Validation, Quality Check, Enhancement
+
 **Bounded Context Rationale:** Highly cohesive photo management operations. Photo quality and processing rules are encapsulated here.
 
 **Integration Points:**
@@ -123,8 +159,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 3. **Catalog Context**
+
 **Alignment:** Product Catalog Subdomain
+
 **Ubiquitous Language:** Product, PrintOption, Size, PaperType, Finish, Price
+
 **Bounded Context Rationale:** Product definitions and pricing rules are isolated. Changes to catalog don't affect order processing logic directly.
 
 **Integration Points:**
@@ -134,8 +173,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 4. **Ordering Context**
+
 **Alignment:** Order Management Subdomain (Core)
+
 **Ubiquitous Language:** Cart, Order, LineItem, PrintConfiguration, OrderStatus, PromoCode
+
 **Bounded Context Rationale:** Captures the core business logic of converting customer intent into orders. High cohesion around order lifecycle.
 
 **Integration Points:**
@@ -145,8 +187,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 5. **Payment Context**
+
 **Alignment:** Payment Processing Subdomain (Generic)
+
 **Ubiquitous Language:** Payment, Authorization, Capture, Refund, PaymentMethod
+
 **Bounded Context Rationale:** Isolated payment processing. Uses Anticorruption Layer to integrate with external payment gateways.
 
 **Integration Points:**
@@ -156,8 +201,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 6. **Fulfillment Context**
+
 **Alignment:** Print Fulfillment Subdomain (Core)
+
 **Ubiquitous Language:** PrintJob, PrintSpecification, PrintingPartner, ProductionStatus, Reprint
+
 **Bounded Context Rationale:** Encapsulates print production logic and partner coordination. Critical quality and production rules live here.
 
 **Integration Points:**
@@ -167,8 +215,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 7. **Delivery Context**
+
 **Alignment:** Delivery & Logistics Subdomain
+
 **Ubiquitous Language:** Delivery, DeliveryOption, Courier, TrackingInfo, DeliveryStatus
+
 **Bounded Context Rationale:** Logistics coordination separated from fulfillment. Different team responsibilities and integration points.
 
 **Integration Points:**
@@ -178,8 +229,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 8. **Engagement Context**
+
 **Alignment:** Notifications Subdomain (Generic)
+
 **Ubiquitous Language:** Notification, Channel, Template, Recipient
+
 **Bounded Context Rationale:** Communication mechanisms isolated. Can evolve independently of business domains.
 
 **Integration Points:**
@@ -189,8 +243,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 9. **Support Context**
+
 **Alignment:** Customer Support Subdomain
+
 **Ubiquitous Language:** Ticket, Issue, Resolution, Feedback, Agent
+
 **Bounded Context Rationale:** Support operations have distinct workflows and terminology. Interfaces with multiple contexts for issue resolution.
 
 **Integration Points:**
@@ -200,8 +257,11 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 ---
 
 ### 10. **Insights Context**
+
 **Alignment:** Analytics & Insights Subdomain
+
 **Ubiquitous Language:** Metric, Report, Conversion, Revenue, Performance
+
 **Bounded Context Rationale:** Read-model optimized for analytics. Separate from operational contexts.
 
 **Integration Points:**
