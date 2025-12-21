@@ -6,19 +6,20 @@
 2. [Domain](#2-domain)
 3. [Model](#3-model)
 4. [Ubiquitous Language](#4-ubiquitous-language)
-5. [Entity](#5-entity)
-6. [Value Objects](#6-value-objects)
-7. [Service](#7-service)
-8. [Service vs Entity](#8-service-vs-entity)
-9. [Aggregate](#9-aggregate)
-10. [Factory](#10-factory)
-11. [Repository](#11-repository)
-12. [Context](#12-context)
-13. [Bounded Context](#13-bounded-context)
-14. [Context Map](#14-context-map)
-15. [Integration Patterns Between Contexts](#15-integration-patterns-between-contexts)
-16. [Distillation Process](#16-distillation-process)
-17. [Types of Domains](#17-types-of-domains)
+5. [Domain Objects](#5-domain-objects)
+6. [Entity](#6-entity)
+7. [Value Objects](#7-value-objects)
+8. [Service](#8-service)
+9. [Service vs Entity](#9-service-vs-entity)
+10. [Aggregate](#10-aggregate)
+11. [Factory](#11-factory)
+12. [Repository](#12-repository)
+13. [Context](#13-context)
+14. [Bounded Context](#14-bounded-context)
+15. [Context Map](#15-context-map)
+16. [Integration Patterns Between Contexts](#16-integration-patterns-between-contexts)
+17. [Distillation Process](#17-distillation-process)
+18. [Types of Domains](#18-types-of-domains)
 
 ## 1. Domain-Driven Design (DDD)
 
@@ -46,7 +47,31 @@ The Ubiquitous Language is a common language shared by the entire team (develope
 - Ensures everyone shares the same understanding of domain concepts
 - Connects the model directly to the code
 
-## 5. Entity
+## 5. Domain Objects
+
+A Domain Object is any object that is part of the domain layer and represents concepts from the business domain. This is a general category that encompasses Entities, Value Objects, Services, and Aggregates.
+
+**Characteristics:**
+- **Domain-focused**: Expresses concepts directly from the business domain
+- **Part of the model**: Represents elements identified during domain modeling
+- **Uses ubiquitous language**: Named and described using domain terminology
+- **Encapsulates domain logic**: Contains behavior relevant to the domain, not infrastructure concerns
+- **Isolated from infrastructure**: Kept separate from UI, database, and other technical concerns through layered architecture
+- **Rich behavior**: Not just data holders - contains meaningful domain operations
+- **Model integrity**: Maintains invariants and business rules
+- **Expressed in code**: The domain objects in code should directly reflect the domain model
+
+**Key Principle:** Domain objects should be "free of the responsibility of displaying themselves, storing themselves, managing application tasks" so they can "focus on expressing the domain model."
+
+**Types of Domain Objects:**
+1. **Entities** - Objects with identity
+2. **Value Objects** - Objects defined by attributes
+3. **Services** - Stateless operations
+4. **Aggregates** - Clusters of related objects
+5. **Factories** - Handle complex object creation
+6. **Repositories** - Manage object retrieval and storage
+
+## 6. Entity
 
 An Entity is an object that has a distinct identity that remains constant throughout its lifecycle, regardless of changes to its attributes. It's distinguished by its identity rather than its attributes.
 
@@ -63,7 +88,7 @@ An Entity is an object that has a distinct identity that remains constant throug
 
 2. **Person/Customer:** A person in a system has identity (perhaps Social Security number or a combination of name, birth date, and birthplace). Two people might have the same name, but they're still distinct individuals with separate identities.
 
-## 6. Value Objects
+## 7. Value Objects
 
 A Value Object is an object used to describe certain aspects of a domain that has no conceptual identity. It's defined entirely by its attributes - what matters is what the object is, not who or which it is.
 
@@ -84,7 +109,7 @@ A Value Object is an object used to describe certain aspects of a domain that ha
 
 2. **Money/Currency Amount:** A monetary value like $50.00 USD is a Value Object. If two objects both represent $50.00 USD, they're functionally identical and interchangeable. The specific object instance doesn't matter, only the value it represents.
 
-## 7. Service
+## 8. Service
 
 A Service is an object that provides operations representing significant domain concepts that don't naturally belong to any Entity or Value Object. It's an interface that provides behavior for the domain without holding state.
 
@@ -109,7 +134,7 @@ A Service is an object that provides operations representing significant domain 
 
 2. **Money Transfer Service:** A service that transfers money between bank accounts - this behavior doesn't naturally belong to either account entity.
 
-## 8. Service vs Entity
+## 9. Service vs Entity
 
 | Aspect | Service | Entity |
 |--------|---------|--------|
@@ -122,7 +147,7 @@ A Service is an object that provides operations representing significant domain 
 
 **Key Insight:** Services prevent domain behavior from bloating entities when that behavior doesn't naturally belong to any particular entity.
 
-## 9. Aggregate
+## 10. Aggregate
 
 An Aggregate is a cluster of associated domain objects (Entities and Value Objects) that are treated as a single unit for data changes. It has a boundary that separates objects inside from those outside, with one Entity serving as the Aggregate Root.
 
@@ -168,7 +193,7 @@ An Aggregate is a cluster of associated domain objects (Entities and Value Objec
    ```
    The Order root controls all line items. Line item IDs only make sense within their order context.
 
-## 10. Factory
+## 11. Factory
 
 A Factory is an object responsible for encapsulating the knowledge and logic necessary to create complex objects or entire Aggregates. It handles the construction process, ensuring all invariants are met and objects are created in a valid, complete state.
 
@@ -216,7 +241,7 @@ A Factory is an object responsible for encapsulating the knowledge and logic nec
        - Returns component to client
    ```
 
-## 11. Repository
+## 12. Repository
 
 A Repository is an object that encapsulates the logic for accessing domain objects from persistent storage, providing the illusion of an in-memory collection. It acts as a storage and retrieval mechanism for Aggregate Roots.
 
@@ -288,7 +313,7 @@ A Repository is an object that encapsulates the logic for accessing domain objec
        // Persists order and all line items atomically
    ```
 
-## 12. Context
+## 13. Context
 
 The set of conditions and boundaries where a model's terms have specific, unambiguous meaning.
 
@@ -302,7 +327,7 @@ The set of conditions and boundaries where a model's terms have specific, unambi
 
 **Solution:** Consciously divide into multiple bounded contexts with explicit boundaries and relationships.
 
-## 13. Bounded Context
+## 14. Bounded Context
 
 An explicit boundary within which a domain model is unified and terms have precise meaning.
 
@@ -347,7 +372,7 @@ An explicit boundary within which a domain model is unified and terms have preci
    - Transactions, posting, reconciliation
    - Customer just an ID reference here
 
-## 14. Context Map
+## 15. Context Map
 
 A document outlining all Bounded Contexts and their relationships/integration points.
 
@@ -359,7 +384,7 @@ A document outlining all Bounded Contexts and their relationships/integration po
 - Supports architecture decisions
 - Serves as an onboarding tool
 
-## 15. Integration Patterns Between Contexts
+## 16. Integration Patterns Between Contexts
 
 **1. Shared Kernel**
 - Two teams share subset of model
@@ -394,7 +419,7 @@ A document outlining all Bounded Contexts and their relationships/integration po
 - Common exchange format (XML, JSON schema)
 - Often used with Open Host Service
 
-## 16. Distillation Process
+## 17. Distillation Process
 
 Distillation is the process of refining a large domain model to extract and highlight its essential core, separating it from supporting parts.
 
@@ -408,20 +433,49 @@ The distillation process identifies and separates three distinct components:
 
 **Key Principle:** "Justify investment in any other part by how it supports the distilled Core."
 
-## 17. Types of Domains
+## 18. Types of Domains
 
 ### Core Domain
-- **What:** Business differentiator and competitive advantage
-- **Characteristics:** Proprietary, strategic, requires deep expertise
+
+**What is the Core Domain?**
+
+The Core Domain represents the motivation for the project - it's what provides unique business value and competitive advantage. It's the reason the system exists and what differentiates your business from competitors.
+
+**Key Principle:** Core domain = motivation for the project
+
+**Characteristics:**
+- Business differentiator and competitive advantage
+- Proprietary, strategic, requires deep expertise
 - **Investment:** Maximum - best developers, deep modeling
 - **Can buy?** No
-- **Examples:** Netflix recommendation engine, trading algorithms, collision detection
+- Reduce the complexity of the model
+- Focus on maintainability of this part of the system
+
+**Example - Delivery Company:**
+
+If a company's value proposition is "We delivery quickly and reliably", then:
+- **Core domain** = Delivery Process (the differentiator)
+- **Supporting subdomains** = Order Processing, Invoicing (necessary but not unique)
+- **Generic subdomains** = Authentication, Payment Processing (commodity features)
+
+**Key Processes in a Typical System:**
+- Order Processing
+- Invoicing
+- Delivery Process
+
+The core domain is determined by asking: "What is our competitive advantage?" In the delivery company example, the Delivery Process is core because that's what customers value most.
+
+**Other Examples:**
+- Netflix: Recommendation engine
+- Trading firm: Trading algorithms
+- Air traffic system: Collision detection
 
 **Tests to Identify:**
 - Competitive advantage? (differentiates us)
 - Proprietary knowledge? (unique expertise)
 - Strategic value? (mission-critical)
 - Worth best developers? (justify investment)
+- Is this the motivation for the project?
 
 ### Supporting Subdomain
 - **What:** Business-specific but not core differentiator

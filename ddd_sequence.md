@@ -4,11 +4,11 @@
 
 1. [High-Level Process](#high-level-process)
 2. [Event Storming Process](#event-storming-process)
-3. [Techniques to Identify Bounded Contexts](#techniques-to-identify-bounded-contexts)
-4. [Techniques to Identify Aggregates](#techniques-to-identify-aggregates)
-5. [How to Identify Domain Types](#how-to-identify-domain-types)
-6. [Factory-Repository Workflow](#factory-repository-workflow)
-7. [Hierarchical Relationship of DDD Concepts](#hierarchical-relationship-of-ddd-concepts)
+3. [Hierarchical Relationship of DDD Concepts](#hierarchical-relationship-of-ddd-concepts)
+4. [Techniques to Identify Bounded Contexts](#techniques-to-identify-bounded-contexts)
+5. [Techniques to Identify Aggregates](#techniques-to-identify-aggregates)
+6. [How to Identify Domain Types](#how-to-identify-domain-types)
+7. [Factory-Repository Workflow](#factory-repository-workflow)
 
 ## High-Level Process
 
@@ -91,6 +91,30 @@ Event Storming is a collaborative modeling technique used in Phase 1 (Domain Dis
 - Allows many people (10+) to work in parallel on the model
 - Reveals how people interact and who has specialized knowledge
 - Creates common understanding of the domain
+
+## Hierarchical Relationship of DDD Concepts
+
+```
+Domain (The overall business area, e.g., e-commerce)
+└── Subdomains (Core, Supporting, Generic)
+    └── Bounded Contexts (Order Processing, Invoicing, Delivery Process)
+        └── Domain Model (with ubiquitous language)
+            ├── Aggregates (consistency boundaries)
+            │   ├── Entities (objects with identity)
+            │   └── Value Objects (immutable objects)
+            ├── Domain Events (things that happened)
+            ├── Services (logic that doesn't fit in entities)
+            ├── Factories (complex object creation)
+            └── Repositories (persistence abstraction)
+```
+
+### Understanding the Hierarchy
+
+- **Domain**: The entire business area you're working in
+- **Subdomains**: Logical divisions of the domain (Core, Supporting, Generic)
+- **Bounded Contexts**: Explicit boundaries where models are unified
+- **Domain Model**: The conceptual model within each bounded context
+- **Building Blocks**: Aggregates, Entities, Value Objects, Services, Factories, Repositories
 
 ## Techniques to Identify Bounded Contexts
 
@@ -228,30 +252,6 @@ This workflow demonstrates the complete object lifecycle in DDD.
 - **Aggregate** = WHAT (structure of domain objects)
 - **Factory** = HOW to CREATE (construction mechanism)
 - **Repository** = HOW to ACCESS (retrieval/storage mechanism)
-
-## Hierarchical Relationship of DDD Concepts
-
-```
-Domain (The overall business area, e.g., e-commerce)
-└── Subdomains (Core, Supporting, Generic)
-    └── Bounded Contexts (Order Processing, Invoicing, Delivery Process)
-        └── Domain Model (with ubiquitous language)
-            ├── Aggregates (consistency boundaries)
-            │   ├── Entities (objects with identity)
-            │   └── Value Objects (immutable objects)
-            ├── Domain Events (things that happened)
-            ├── Services (logic that doesn't fit in entities)
-            ├── Factories (complex object creation)
-            └── Repositories (persistence abstraction)
-```
-
-### Understanding the Hierarchy
-
-- **Domain**: The entire business area you're working in
-- **Subdomains**: Logical divisions of the domain (Core, Supporting, Generic)
-- **Bounded Contexts**: Explicit boundaries where models are unified
-- **Domain Model**: The conceptual model within each bounded context
-- **Building Blocks**: Aggregates, Entities, Value Objects, Services, Factories, Repositories
 
 ## Integration Patterns Between Contexts
 
