@@ -1,5 +1,14 @@
 # domain-driven-design-cheat-sheets
-Collection of notes on DDD curated by AI
+
+**Your quick-read DDD guide** - because who has time to read entire books when you're trying to ship code? 🚀
+
+Built through a lot of coffee and patience:
+- Read through several DDD books and articles (check out [References](references.md))
+- Collected tons of notes on the important stuff
+- Spent hours with Claude Pro turning those notes into something actually useful
+- Created a real-world example (Online Photo Store) so you can see DDD in action, not just theory
+
+Think of this as the DDD cheat sheet I wish I had when starting out. Skip the fluff, get to the good parts.
 
 ## Basic Definitions
 - [Definitions](definitions.md)
