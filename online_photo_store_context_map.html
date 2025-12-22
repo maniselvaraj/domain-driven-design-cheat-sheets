@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDD Context Map - Standard Notation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: #FFFFFF;
+            padding: 40px 20px;
+            color: #1a1a1a;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #000;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            color: #666;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border: 2px solid #000;
+        }
+        
+        .legend-title {
+            grid-column: 1 / -1;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .legend-symbol {
+            width: 40px;
+            height: 30px;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .legend-line {
+            width: 40px;
+            height: 2px;
+            background: #000;
+            position: relative;
+            flex-shrink: 0;
+        }
+        
+        .legend-line.dashed {
+            background: none;
+            border-top: 2px dashed #000;
+        }
+        
+        .legend-line::after {
+            content: '▶';
+            position: absolute;
+            right: -8px;
+            top: -9px;
+            font-size: 12px;
+        }
+        
+        /* SVG Container */
+        .diagram-container {
+            background: #fff;
+            border: 3px solid #000;
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: visible;
+        }
+        
+        svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Bounded Context styles */
+        .bounded-context {
+            fill: #fff;
+            stroke: #000;
+            stroke-width: 3;
+        }
+        
+        .bounded-context.core {
+            fill: #ffe5e5;
+        }
+        
+        .bounded-context.supporting {
+            fill: #e5f5ff;
+        }
+        
+        .bounded-context.generic {
+            fill: #f0f0f0;
+        }
+        
+        /* Aggregate styles */
+        .aggregate-box {
+            fill: #fff;
+            stroke: #000;
+            stroke-width: 2;
+        }
+        
+        /* Text styles */
+        .context-label {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            fill: #000;
+        }
+        
+        .context-type {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            fill: #666;
+            text-transform: uppercase;
+        }
+        
+        .aggregate-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            fill: #000;
+        }
+        
+        .relationship-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            fill: #000;
+        }
+        
+        .pattern-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 9px;
+            font-weight: 600;
+            fill: #fff;
+        }
+        
+        /* Relationship lines */
+        .relationship-line {
+            stroke: #000;
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        .relationship-line.dashed {
+            stroke-dasharray: 5, 5;
+        }
+        
+        .relationship-line.acl {
+            stroke: #dc3545;
+            stroke-width: 3;
+        }
+        
+        /* Pattern badges */
+        .pattern-badge {
+            fill: #000;
+        }
+        
+        .pattern-badge.acl {
+            fill: #dc3545;
+        }
+        
+        .pattern-badge.conformist {
+            fill: #6c757d;
+        }
+        
+        /* Arrow markers */
+        marker path {
+            fill: #000;
+        }
+        
+        marker.acl path {
+            fill: #dc3545;
+        }
+        
+        /* Hover effects */
+        .bounded-context:hover {
+            filter: brightness(0.95);
+            cursor: pointer;
+        }
+        
+        .aggregate-box:hover {
+            fill: #fffacd;
+        }
+        
+        /* Notation guide */
+        .notation-guide {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border: 2px solid #000;
+        }
+        
+        .notation-title {
+            font-weight: 700;
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .notation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .notation-item {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        .notation-item strong {
+            display: block;
+            font-family: 'IBM Plex Mono', monospace;
+            margin-bottom: 4px;
+            font-size: 13px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .notation-guide {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Context Map</h1>
+            <p>Online Photo Printing Service | Domain-Driven Design</p>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-title">Standard DDD Notation</div>
+            
+            <div class="legend-item">
+                <div class="legend-symbol" style="background: #ffe5e5;">C</div>
+                <span>Core Domain</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-symbol" style="background: #e5f5ff;">S</div>
+                <span>Supporting Subdomain</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-symbol" style="background: #f0f0f0;">G</div>
+                <span>Generic Subdomain</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-line"></div>
+                <span>Customer-Supplier (U ← D)</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-line" style="background: #dc3545;"></div>
+                <span>Anticorruption Layer</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-line dashed"></div>
+                <span>Published Language / OHS</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-symbol">[ ]</div>
+                <span>Bounded Context</span>
+            </div>
+            
+            <div class="legend-item">
+                <div class="legend-symbol" style="font-size: 10px;">AG</div>
+                <span>Aggregate Root</span>
+            </div>
+        </div>
+        
+        <div class="diagram-container">
+            <svg viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Define arrow markers -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#000" />
+                    </marker>
+                    <marker id="arrowhead-acl" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" class="acl">
+                        <polygon points="0 0, 10 3, 0 6" fill="#dc3545" />
+                    </marker>
+                </defs>
+                
+                <!-- Customer Context -->
+                <g id="customer-context">
+                    <rect class="bounded-context supporting" x="50" y="50" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="190" y="80" text-anchor="middle">Customer Context</text>
+                    <text class="context-type" x="190" y="95" text-anchor="middle">[Supporting Subdomain]</text>
+                    
+                    <rect class="aggregate-box" x="70" y="110" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="190" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="190" y="145" text-anchor="middle">Customer</text>
+                    <text class="aggregate-label" x="80" y="165" font-size="9">- Address (VO)</text>
+                    <text class="aggregate-label" x="80" y="180" font-size="9">- Preferences (VO)</text>
+                    <text class="aggregate-label" x="80" y="195" font-size="9">- Authentication</text>
+                </g>
+                
+                <!-- Photo Library Context -->
+                <g id="photo-context">
+                    <rect class="bounded-context core" x="380" y="50" width="280" height="280" rx="5"/>
+                    <text class="context-label" x="520" y="80" text-anchor="middle">Photo Library Context</text>
+                    <text class="context-type" x="520" y="95" text-anchor="middle">[Core Domain]</text>
+                    
+                    <!-- Photo Aggregate -->
+                    <rect class="aggregate-box" x="400" y="110" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="520" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="520" y="145" text-anchor="middle">Photo</text>
+                    <text class="aggregate-label" x="410" y="165" font-size="9">- ImageMetadata (VO)</text>
+                    <text class="aggregate-label" x="410" y="180" font-size="9">- EditHistory (VO)</text>
+                    <text class="aggregate-label" x="410" y="195" font-size="9">- QualityStatus</text>
+                    
+                    <!-- Album Aggregate -->
+                    <rect class="aggregate-box" x="400" y="220" width="240" height="90" rx="3"/>
+                    <text class="aggregate-label" x="520" y="240" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="520" y="255" text-anchor="middle">Album</text>
+                    <text class="aggregate-label" x="410" y="275" font-size="9">- PhotoReferences</text>
+                    <text class="aggregate-label" x="410" y="290" font-size="9">- Metadata</text>
+                </g>
+                
+                <!-- Catalog Context -->
+                <g id="catalog-context">
+                    <rect class="bounded-context supporting" x="710" y="50" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="850" y="80" text-anchor="middle">Catalog Context</text>
+                    <text class="context-type" x="850" y="95" text-anchor="middle">[Supporting Subdomain]</text>
+                    
+                    <rect class="aggregate-box" x="730" y="110" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="850" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="850" y="145" text-anchor="middle">Product</text>
+                    <text class="aggregate-label" x="740" y="165" font-size="9">- ProductVariant (Entity)</text>
+                    <text class="aggregate-label" x="740" y="180" font-size="9">- PriceRule (VO)</text>
+                    <text class="aggregate-label" x="740" y="195" font-size="9">- SizeSpecification (VO)</text>
+                </g>
+                
+                <!-- Ordering Context -->
+                <g id="ordering-context">
+                    <rect class="bounded-context core" x="380" y="380" width="610" height="280" rx="5"/>
+                    <text class="context-label" x="685" y="410" text-anchor="middle">Ordering Context</text>
+                    <text class="context-type" x="685" y="425" text-anchor="middle">[Core Domain]</text>
+                    
+                    <!-- Cart Aggregate -->
+                    <rect class="aggregate-box" x="400" y="440" width="270" height="100" rx="3"/>
+                    <text class="aggregate-label" x="535" y="460" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="535" y="475" text-anchor="middle">Cart</text>
+                    <text class="aggregate-label" x="410" y="495" font-size="9">- CartItem (Entity)</text>
+                    <text class="aggregate-label" x="410" y="510" font-size="9">- PromoCode (VO)</text>
+                    <text class="aggregate-label" x="410" y="525" font-size="9">- expiresAt</text>
+                    
+                    <!-- Order Aggregate -->
+                    <rect class="aggregate-box" x="700" y="440" width="270" height="110" rx="3"/>
+                    <text class="aggregate-label" x="835" y="460" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="835" y="475" text-anchor="middle">Order</text>
+                    <text class="aggregate-label" x="710" y="495" font-size="9">- OrderLine (Entity)</text>
+                    <text class="aggregate-label" x="710" y="510" font-size="9">- ShippingAddress (VO)</text>
+                    <text class="aggregate-label" x="710" y="525" font-size="9">- OrderSummary (VO)</text>
+                    <text class="aggregate-label" x="710" y="540" font-size="9">- OrderStatus</text>
+                </g>
+                
+                <!-- Payment Context -->
+                <g id="payment-context">
+                    <rect class="bounded-context generic" x="1040" y="380" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="1180" y="410" text-anchor="middle">Payment Context</text>
+                    <text class="context-type" x="1180" y="425" text-anchor="middle">[Generic Subdomain]</text>
+                    
+                    <rect class="aggregate-box" x="1060" y="440" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="1180" y="460" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="1180" y="475" text-anchor="middle">Payment</text>
+                    <text class="aggregate-label" x="1070" y="495" font-size="9">- PaymentToken (VO)</text>
+                    <text class="aggregate-label" x="1070" y="510" font-size="9">- RefundDetails (VO)</text>
+                    <text class="aggregate-label" x="1070" y="525" font-size="9">- PaymentStatus</text>
+                </g>
+                
+                <!-- Fulfillment Context -->
+                <g id="fulfillment-context">
+                    <rect class="bounded-context core" x="380" y="710" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="520" y="740" text-anchor="middle">Fulfillment Context</text>
+                    <text class="context-type" x="520" y="755" text-anchor="middle">[Core Domain]</text>
+                    
+                    <rect class="aggregate-box" x="400" y="770" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="520" y="790" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="520" y="805" text-anchor="middle">PrintJob</text>
+                    <text class="aggregate-label" x="410" y="825" font-size="9">- PrintSpecification (VO)</text>
+                    <text class="aggregate-label" x="410" y="840" font-size="9">- QualityCheck (VO)</text>
+                    <text class="aggregate-label" x="410" y="855" font-size="9">- ProductionStatus</text>
+                </g>
+                
+                <!-- Delivery Context -->
+                <g id="delivery-context">
+                    <rect class="bounded-context supporting" x="710" y="710" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="850" y="740" text-anchor="middle">Delivery Context</text>
+                    <text class="context-type" x="850" y="755" text-anchor="middle">[Supporting Subdomain]</text>
+                    
+                    <rect class="aggregate-box" x="730" y="770" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="850" y="790" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="850" y="805" text-anchor="middle">Delivery</text>
+                    <text class="aggregate-label" x="740" y="825" font-size="9">- DeliveryAddress (VO)</text>
+                    <text class="aggregate-label" x="740" y="840" font-size="9">- DeliveryAttempt (VO)</text>
+                    <text class="aggregate-label" x="740" y="855" font-size="9">- TrackingInfo</text>
+                </g>
+                
+                <!-- Support Context -->
+                <g id="support-context">
+                    <rect class="bounded-context supporting" x="1040" y="710" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="1180" y="740" text-anchor="middle">Support Context</text>
+                    <text class="context-type" x="1180" y="755" text-anchor="middle">[Supporting Subdomain]</text>
+                    
+                    <rect class="aggregate-box" x="1060" y="770" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="1180" y="790" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="1180" y="805" text-anchor="middle">SupportTicket</text>
+                    <text class="aggregate-label" x="1070" y="825" font-size="9">- TicketInteraction (Entity)</text>
+                    <text class="aggregate-label" x="1070" y="840" font-size="9">- Resolution (VO)</text>
+                    <text class="aggregate-label" x="1070" y="855" font-size="9">- Priority</text>
+                </g>
+                
+                <!-- Engagement Context -->
+                <g id="engagement-context">
+                    <rect class="bounded-context generic" x="1370" y="380" width="180" height="510" rx="5"/>
+                    <text class="context-label" x="1460" y="410" text-anchor="middle">Engagement</text>
+                    <text class="context-label" x="1460" y="425" text-anchor="middle">Context</text>
+                    <text class="context-type" x="1460" y="440" text-anchor="middle">[Generic]</text>
+                    
+                    <rect class="aggregate-box" x="1390" y="460" width="140" height="80" rx="3"/>
+                    <text class="aggregate-label" x="1460" y="480" text-anchor="middle" font-weight="700">«AR»</text>
+                    <text class="aggregate-label" x="1460" y="495" text-anchor="middle">Notification</text>
+                    <text class="aggregate-label" x="1400" y="515" font-size="9">- Channel</text>
+                    <text class="aggregate-label" x="1400" y="530" font-size="9">- Template</text>
+                </g>
+                
+                <!-- Insights Context -->
+                <g id="insights-context">
+                    <rect class="bounded-context supporting" x="50" y="710" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="190" y="740" text-anchor="middle">Insights Context</text>
+                    <text class="context-type" x="190" y="755" text-anchor="middle">[Supporting Subdomain]</text>
+                    
+                    <rect class="aggregate-box" x="70" y="770" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="190" y="790" text-anchor="middle" font-weight="700">«Read Model»</text>
+                    <text class="aggregate-label" x="190" y="805" text-anchor="middle">Analytics</text>
+                    <text class="aggregate-label" x="80" y="825" font-size="9">- Metric</text>
+                    <text class="aggregate-label" x="80" y="840" font-size="9">- Report</text>
+                    <text class="aggregate-label" x="80" y="855" font-size="9">- Performance</text>
+                </g>
+                
+                <!-- RELATIONSHIPS -->
+                
+                <!-- Customer -> Ordering (U-D) -->
+                <line class="relationship-line" x1="190" y1="230" x2="380" y2="480" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="280" y="340">U</text>
+                <rect class="pattern-badge" x="260" y="360" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="280" y="371" text-anchor="middle">D</text>
+                
+                <!-- Photo -> Ordering (U-D) -->
+                <line class="relationship-line" x1="520" y1="330" x2="520" y2="380" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="540" y="360">U</text>
+                
+                <!-- Catalog -> Ordering (U-D) -->
+                <line class="relationship-line" x1="850" y1="230" x2="850" y2="380" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="870" y="300">U</text>
+                
+                <!-- Cart -> Order (within context) -->
+                <line class="relationship-line" x1="670" y1="490" x2="700" y2="490" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="685" y="480" text-anchor="middle" font-size="9">checkout</text>
+                
+                <!-- Ordering -> Payment (U-D) -->
+                <line class="relationship-line" x1="990" y1="490" x2="1040" y2="490" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="1015" y="480">U</text>
+                
+                <!-- Payment -> External Gateway (ACL) -->
+                <line class="relationship-line acl" x1="1300" y1="480" x2="1370" y2="480" marker-end="url(#arrowhead-acl)"/>
+                <rect class="pattern-badge acl" x="1305" y="490" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="1325" y="501" text-anchor="middle">ACL</text>
+                <text class="relationship-label" x="1330" y="470" font-size="9">External</text>
+                <text class="relationship-label" x="1330" y="480" font-size="9">Gateway</text>
+                
+                <!-- Ordering -> Fulfillment (U-D) -->
+                <line class="relationship-line" x1="520" y1="660" x2="520" y2="710" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="540" y="690">U</text>
+                
+                <!-- Fulfillment -> Delivery (U-D) -->
+                <line class="relationship-line" x1="660" y1="810" x2="710" y2="810" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="685" y="800">U</text>
+                
+                <!-- Fulfillment -> External Printers (ACL) -->
+                <line class="relationship-line acl" x1="400" y1="820" x2="350" y2="820" marker-end="url(#arrowhead-acl)"/>
+                <rect class="pattern-badge acl" x="300" y="810" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="320" y="821" text-anchor="middle">ACL</text>
+                <text class="relationship-label" x="280" y="810" font-size="9" text-anchor="end">Print</text>
+                <text class="relationship-label" x="280" y="820" font-size="9" text-anchor="end">Partners</text>
+                
+                <!-- Delivery -> External Couriers (ACL) -->
+                <line class="relationship-line acl" x1="990" y1="820" x2="1040" y2="820" marker-end="url(#arrowhead-acl)"/>
+                <rect class="pattern-badge acl" x="1000" y="830" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="1020" y="841" text-anchor="middle">ACL</text>
+                <text class="relationship-label" x="1050" y="810" font-size="9">Courier</text>
+                <text class="relationship-label" x="1050" y="820" font-size="9">Services</text>
+                
+                <!-- Support -> Ordering/Fulfillment/Delivery (U-D) -->
+                <line class="relationship-line dashed" x1="1040" y1="800" x2="990" y2="600" marker-end="url(#arrowhead)"/>
+                <rect class="pattern-badge" x="1000" y="680" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="1020" y="691" text-anchor="middle">D</text>
+                
+                <!-- All -> Engagement (Published Language) -->
+                <line class="relationship-line dashed" x1="990" y1="490" x2="1370" y2="490" marker-end="url(#arrowhead)"/>
+                <rect class="pattern-badge" x="1160" y="500" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="1180" y="511" text-anchor="middle">PL</text>
+                
+                <line class="relationship-line dashed" x1="660" y1="820" x2="1370" y2="700" marker-end="url(#arrowhead)"/>
+                
+                <!-- All -> Insights (Conformist) -->
+                <line class="relationship-line dashed" x1="380" y1="520" x2="330" y2="710" marker-end="url(#arrowhead)"/>
+                <rect class="pattern-badge conformist" x="280" y="600" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="300" y="611" text-anchor="middle">CF</text>
+                
+                <line class="relationship-line dashed" x1="400" y1="820" x2="330" y2="820" marker-end="url(#arrowhead)"/>
+            </svg>
+        </div>
+        
+        <div class="notation-guide">
+            <div class="notation-title">DDD Standard Notation Reference</div>
+            
+            <div class="notation-grid">
+                <div class="notation-item">
+                    <strong>U (Upstream) / D (Downstream)</strong>
+                    Customer-Supplier relationship. Upstream defines the interface, downstream conforms. Arrow points downstream (direction of dependency).
+                </div>
+                
+                <div class="notation-item">
+                    <strong>ACL (Anticorruption Layer)</strong>
+                    Protects downstream context from upstream changes. Translates external models to domain concepts. Used for external integrations.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>PL (Published Language)</strong>
+                    Well-documented shared language between contexts. Often implemented as domain events. Upstream publishes, multiple downstreams consume.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>CF (Conformist)</strong>
+                    Downstream accepts upstream model as-is. No translation. Used when cost of ACL exceeds benefit (e.g., analytics consuming events).
+                </div>
+                
+                <div class="notation-item">
+                    <strong>OHS (Open Host Service)</strong>
+                    Upstream provides protocol for multiple downstreams. Combined with Published Language for event-driven architectures.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>Bounded Context</strong>
+                    Explicit boundary where a specific model applies. Contains aggregates, entities, value objects with consistent ubiquitous language.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>Aggregate Root</strong>
+                    Entry point for all operations on the aggregate. Enforces invariants. Controls transactional consistency boundary.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>Value Object (VO)</strong>
+                    Immutable object defined by attributes. No identity. Shared concepts like Address, Money, DateRange.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>Entity</strong>
+                    Object with identity that persists over time. Mutable. Identity matters more than attributes (e.g., OrderLine, CartItem).
+                </div>
+                
+                <div class="notation-item">
+                    <strong>Core Domain</strong>
+                    Strategic competitive advantage. Receives maximum investment. Contains complex business rules unique to organization.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>Supporting Subdomain</strong>
+                    Necessary for operations but not competitive differentiator. Custom-built. Simpler than core domain.
+                </div>
+                
+                <div class="notation-item">
+                    <strong>Generic Subdomain</strong>
+                    Solved problem available off-the-shelf. Buy vs build decision. Examples: authentication, payment processing, notifications.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
