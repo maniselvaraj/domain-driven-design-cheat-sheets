@@ -4,15 +4,15 @@ This document provides visual representations of the bounded contexts and their 
 
 ## Context Map Overview
 
-![Online Photo Store Context Map](media/online_photo_store_context1.png)
+![Online Photo Store Context Map](../media/online_photo_store_context1.png)
 
 ## Legend
 
-![Context Map Legend](media/online_photo_legend.png)
+![Context Map Legend](../media/online_photo_legend.png)
 
 ## Notation Guide
 
-![Context Map Notation](media/online_photo_notation.png)
+![Context Map Notation](../media/online_photo_notation.png)
 
 ---
 

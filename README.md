@@ -17,9 +17,9 @@ Think of this as the DDD cheat sheet I wish I had when starting out. Skip the fl
 - [DDD Implementation Sequence](ddd_sequence.md)
 
 ## Case Studies
-- [Online Photo Printing Service - DDD Design](online_photo_store.md)
-  - [Visual Context Map #1](context_map.md)
-  - [Visual Context Map #2](online_photo_context.md)
+- [Online Photo Printing Service - DDD Design](case_study/online_photo_store.md)
+  - [Visual Context Map #1](case_study/context_map.md)
+  - [Visual Context Map #2](case_study/online_photo_context.md)
 
 
 ## Resources
