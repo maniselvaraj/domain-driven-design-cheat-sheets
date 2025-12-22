@@ -8,7 +8,7 @@ This document provides visual representations of the bounded contexts and their 
 
 ## Legend
 
-![Context Map Legend](media/online_photo_legeng.png)
+![Context Map Legend](media/online_photo_legend.png)
 
 ## Notation Guide
 
