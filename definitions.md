@@ -447,6 +447,8 @@ An explicit boundary within which a domain model is unified and terms have preci
 
 **Solution Space Property:** Bounded contexts are a property of the solution space and have a significant impact on how microservices interact with one another.
 
+**Cohesion:** The degree to which elements within a module (or bounded context) belong together—high cohesion means related functionality is grouped together while unrelated functionality is separated.
+
 **High Cohesion:** Bounded contexts should be highly cohesive:
 - Internal operations should be intensive and closely related
 - Vast majority of communication occurs internally rather than cross-boundary
@@ -471,31 +473,47 @@ An explicit boundary within which a domain model is unified and terms have preci
 
 **Example 1: E-Commerce System**
 
+In an e-commerce system, the same business concepts (like "Customer" and "Order") mean different things in different contexts:
+
 1. **Shopping Context**
-   - Customer (as shopper)
-   - Product catalog, cart, checkout
-   - Web UI focused
+   - **Key model concept:** Customer (as shopper with preferences and cart)
+   - **Domain responsibilities:** Product catalog browsing, cart management, checkout process
+   - **Focus:** Web UI and user experience
+   - **Ubiquitous language:** "Add to cart", "Browse products", "Checkout", "Apply coupon"
 
 2. **Reporting Context**
-   - Customer (as data point)
-   - Sales metrics, analytics
-   - Different model, same database
+   - **Key model concept:** Customer (as data point in analytics, not a person with behavior)
+   - **Domain responsibilities:** Sales metrics, conversion analytics, revenue reporting
+   - **Focus:** Read-only analytical model, may share same database but different model
+   - **Ubiquitous language:** "Conversion rate", "Average order value", "Sales trends"
 
 3. **Warehouse Context**
-   - Order (as fulfillment task)
-   - Inventory, shipping
-   - Receives Value Objects via messaging
+   - **Key model concept:** Order (as fulfillment task, not a shopping cart)
+   - **Domain responsibilities:** Inventory management, picking, packing, shipping
+   - **Focus:** Physical fulfillment operations
+   - **Integration:** Receives Order as Value Object via messaging from Shopping Context
+   - **Ubiquitous language:** "Pick order", "Pack shipment", "Update inventory"
+
+**Key insight:** Notice "Customer" and "Order" have completely different meanings and responsibilities in each context, yet they all work together as one system.
 
 **Example 2: Banking System**
 
+In a banking system, contexts separate different aspects of banking operations:
+
 1. **Customer Management Context**
-   - Customer (as person/entity)
-   - Relationship management, KYC
+   - **Key model concept:** Customer (as person/legal entity with identity and relationships)
+   - **Domain responsibilities:** Customer onboarding, KYC (Know Your Customer), relationship management
+   - **Focus:** Customer identity, compliance, documentation
+   - **Ubiquitous language:** "Verify identity", "Complete KYC", "Update contact information"
 
 2. **Account Operations Context**
-   - Account (as financial instrument)
-   - Transactions, posting, reconciliation
-   - Customer just an ID reference here
+   - **Key model concept:** Account (as financial instrument with balance and transactions)
+   - **Domain responsibilities:** Transaction processing, posting, balance reconciliation, statement generation
+   - **Focus:** Financial accuracy and transactional integrity
+   - **Integration:** Customer is just an ID reference here (not a full entity)
+   - **Ubiquitous language:** "Post transaction", "Reconcile balance", "Generate statement"
+
+**Key insight:** In Account Operations, "Customer" is merely a reference ID, not a full entity—this context doesn't care about customer addresses or KYC documents, only which account belongs to which customer ID.
 
 ## 15. Context Map
 
