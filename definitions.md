@@ -238,6 +238,10 @@ A Service is an object that provides operations representing significant domain 
 
 2. **Money Transfer Service:** A service that transfers money between bank accounts - this behavior doesn't naturally belong to either account entity.
 
+**DDD Service vs SOA Service:**
+
+DDD Services and SOA (Service-Oriented Architecture) Services serve different purposes. **DDD Services** are domain objects within a bounded context that encapsulate domain logic not belonging to entities or value objects (e.g., `TransferFundsService`, `CalculateShippingCost`). **SOA Services** are coarse-grained, independently deployable components exposed through network APIs that represent entire business capabilities or bounded contexts (e.g., `PaymentService`, `OrderManagementService`). A DDD Service operates at the domain model level, while an SOA Service operates at the distributed system architecture level—an SOA Service might contain multiple DDD Services within its implementation.
+
 ## 9. Service vs Entity
 
 | Aspect | Service | Entity |
