@@ -519,7 +519,15 @@ In a banking system, contexts separate different aspects of banking operations:
 
 ## 15. Context Map
 
-A document outlining all Bounded Contexts and their relationships/integration points.
+**Definition:** A document outlining all Bounded Contexts and their relationships/integration points.
+
+**Purpose:**
+- Provides global system view
+- Shows context boundaries
+- Documents integration patterns between contexts
+- Names each context
+- Identifies translation points
+- Living document that everyone working on the project shares and understands
 
 **Why Needed:**
 - Prevents boundary confusion
@@ -528,6 +536,13 @@ A document outlining all Bounded Contexts and their relationships/integration po
 - Documents dependencies
 - Supports architecture decisions
 - Serves as an onboarding tool
+
+**Key Characteristics:**
+- Must be shared and understood by all team members
+- Shows both contexts and their relationships
+- Identifies which integration pattern is used between each pair of contexts
+- Evolves as the system grows and understanding deepens
+- Created during Phase 2 (Strategic Design) and maintained throughout the project
 
 ## 16. Integration Patterns Between Contexts
 
@@ -549,11 +564,13 @@ A document outlining all Bounded Contexts and their relationships/integration po
 - When supplier won't accommodate
 - **Example:** Analytics context conforms to Order context's data structure since the Order team won't modify their model for reporting needs
 
-**4. Anticorruption Layer**
-- Translation layer protects downstream
-- Use with legacy/external systems
+**4. Anticorruption Layer (ACL)**
+- Protective translation layer between your clean domain model and external/legacy systems
+- Prevents corruption of your model
+- Two-way translator between models
+- Shields client from external complexity
+- **Components:** Service → Façade → Adapter → Translator
 - Low coupling, high effort
-- Components: Service → Façade → Adapter → Translator
 - **Example:** Modern Order context uses ACL to translate legacy mainframe's COBOL data structures into domain objects
 
 **5. Separate Ways**

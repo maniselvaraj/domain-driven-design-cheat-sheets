@@ -134,37 +134,11 @@ Event Storming uses different colored sticky notes to represent different concep
 
 #### Domain Events (Orange Sticky Notes)
 
-Domain events represent something that happened in the domain that domain experts care about. They are named with past-tense verbs (e.g., "Order Placed", "Payment Authorized", "Customer Registered") and are immutable facts.
-
-**Purpose in Event Storming:** Domain events are the primary building blocks. They capture the essential business facts and form the timeline of what happens in the domain.
-
-**Examples:**
-- "Order Placed"
-- "Payment Authorized"
-- "Item Shipped"
-- "Customer Registered"
-- "Inventory Depleted"
-
-For a complete definition of domain events, see [Definitions - Domain Events](definitions.md#20-domain-events).
+Events are things that happened (past tense: "Order Placed", "Payment Captured"). They are the primary building blocks—capturing essential business facts and forming the timeline. See [Domain Events definition](definitions.md#20-domain-events).
 
 #### Commands (Blue Sticky Notes)
 
-Commands represent intentions or requests to perform actions in the system. They are named with imperative verbs (e.g., "Place Order", "Cancel Subscription", "Process Payment") and can succeed or fail based on business rules.
-
-**Purpose in Event Storming:** Commands help identify the triggers for domain events and reveal business processes and user interactions.
-
-**Examples:**
-- "Place Order"
-- "Cancel Subscription"
-- "Add Item to Cart"
-- "Process Refund"
-- "Update Inventory"
-
-**Command → Event Relationship:**
-- Command: "Place Order" → Event: "Order Placed" (if successful)
-- Command: "Process Payment" → Events: "Payment Authorized", "Payment Captured" OR "Payment Failed"
-
-For a complete definition of commands, see [Definitions - Commands](definitions.md#21-commands).
+Commands are requests to do something (imperative: "Place Order", "Process Payment"). They trigger events when successful but can fail if business rules are violated. See [Commands definition](definitions.md#21-commands).
 
 #### Other Event Storming Elements
 
@@ -344,59 +318,12 @@ This workflow demonstrates the complete object lifecycle in DDD.
 
 ## Integration Patterns Between Contexts
 
-When implementing Phase 4 (Define Boundaries & Integration), use these patterns:
+When implementing Phase 4 (Define Boundaries & Integration), use integration patterns to define how bounded contexts communicate and relate to each other.
 
-### 1. Shared Kernel
-- Two teams share subset of model
-- Requires coordination, shared tests
-- High coupling, high effort
-
-### 2. Customer-Supplier
-- Supplier produces, customer consumes
-- Planning sessions, acceptance tests
-- Medium coupling
-
-### 3. Conformist
-- Downstream conforms to upstream model
-- No translation layer
-- When supplier won't accommodate
-
-### 4. Anti-Corruption Layer (ACL)
-- Protective translation layer between your clean domain model and external/legacy systems
-- **Components**: Service → Façade → Adapter → Translator
-- Prevents corruption of your model
-- Two-way translator between models
-- Shields client from external complexity
-
-### 5. Separate Ways
-- No integration - complete independence
-- When integration costs exceed benefits
-
-### 6. Open Host Service
-- Standard API for multiple clients
-- One protocol vs. many translators
-
-### 7. Published Language
-- Common exchange format (XML, JSON schema)
-- Often used with Open Host Service
+For detailed information on all 7 integration patterns (Shared Kernel, Customer-Supplier, Conformist, Anticorruption Layer, Separate Ways, Open Host Service, Published Language) with examples, see [Definitions - Integration Patterns Between Contexts](definitions.md#16-integration-patterns-between-contexts).
 
 ## Context Map
 
-A Context Map is created during Phase 2 (Strategic Design) and maintained throughout the project.
+A Context Map is created during Phase 2 (Strategic Design) and maintained throughout the project. It provides a global view of all bounded contexts, their boundaries, relationships, and integration patterns.
 
-### Definition
-Document outlining all Bounded Contexts and their relationships/integration points.
-
-### Purpose
-- Provides global system view
-- Shows context boundaries
-- Documents integration patterns
-- Names each context
-- Identifies translation points
-- Living document that everyone working on the project shares and understands
-
-### Key Characteristics
-- Must be shared and understood by all team members
-- Shows both contexts and their relationships
-- Identifies which integration pattern is used between each pair of contexts
-- Evolves as the system grows and understanding deepens
+For detailed information about Context Maps, see [Definitions - Context Map](definitions.md#15-context-map).
