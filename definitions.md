@@ -689,3 +689,31 @@ The core domain is determined by asking: "What is our competitive advantage?" In
 | Core | Highest | Proprietary | Maximum | No |
 | Supporting | Medium | Specific | Moderate | Rarely |
 | Generic | Low | Universal | Minimal | Yes |
+
+## 20. Domain Events
+
+**Definition:** A domain event is something that happened in the domain that domain experts care about. It represents a fact that has already occurred and cannot be changed.
+
+**Characteristics:**
+- **Past tense naming:** Always named with past-tense verbs (e.g., "OrderPlaced", "PaymentReceived", "CustomerRegistered")
+- **Immutable:** Once an event has happened, it cannot be undone (though compensating events can be created)
+- **Business-relevant:** Represents something meaningful to the business, not technical occurrences
+- **Time-stamped:** Events capture when something happened
+- **State change:** Indicates that the system's state has changed
+
+**Purpose:**
+- **Primary building blocks:** Domain events capture the essential business facts and form the timeline of what happens in the domain
+- **Loose coupling:** Enable communication between bounded contexts through event-driven architecture
+- **Audit trail:** Provide complete business history
+- **Multiple consumers:** Allow different contexts to react to the same business occurrence
+- **Eventual consistency:** Support distributed system consistency across bounded contexts
+
+**Examples:**
+- "Order Placed" - Customer completed checkout
+- "Payment Authorized" - Payment gateway approved transaction
+- "Payment Captured" - Payment gateway successfully captured funds
+- "Item Shipped" - Order sent to delivery partner
+- "Customer Registered" - New customer account created
+- "Inventory Depleted" - Product stock reached zero
+
+**Integration Use:** Domain events are the primary mechanism for bounded contexts to communicate - one context publishes events, others subscribe and react.

@@ -85,14 +85,9 @@ Event Storming uses different colored sticky notes to represent different concep
 
 #### Domain Events (Orange Sticky Notes)
 
-**Definition:** A domain event is something that happened in the domain that domain experts care about. It represents a fact that has already occurred and cannot be changed.
+Domain events represent something that happened in the domain that domain experts care about. They are named with past-tense verbs (e.g., "Order Placed", "Payment Authorized", "Customer Registered") and are immutable facts.
 
-**Characteristics:**
-- **Past tense naming**: Always named with past-tense verbs (e.g., "OrderPlaced", "PaymentReceived", "CustomerRegistered")
-- **Immutable**: Once an event has happened, it cannot be undone (though compensating events can be created)
-- **Business-relevant**: Represents something meaningful to the business, not technical occurrences
-- **Time-stamped**: Events capture when something happened
-- **State change**: Indicates that the system's state has changed
+**Purpose in Event Storming:** Domain events are the primary building blocks. They capture the essential business facts and form the timeline of what happens in the domain.
 
 **Examples:**
 - "Order Placed"
@@ -101,7 +96,7 @@ Event Storming uses different colored sticky notes to represent different concep
 - "Customer Registered"
 - "Inventory Depleted"
 
-**Purpose in Event Storming:** Domain events are the primary building blocks. They capture the essential business facts and form the timeline of what happens in the domain.
+For a complete definition of domain events, see [Definitions - Domain Events](definitions.md#20-domain-events).
 
 #### Commands (Blue Sticky Notes)
 
