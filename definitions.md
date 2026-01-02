@@ -533,34 +533,41 @@ A document outlining all Bounded Contexts and their relationships/integration po
 - Two teams share subset of model
 - Requires coordination, shared tests
 - High coupling, high effort
+- **Example:** Payment and Order contexts both share a common `Money` value object with identical implementation
 
 **2. Customer-Supplier**
 - Supplier produces, customer consumes
 - Planning sessions, acceptance tests
 - Medium coupling
+- **Example:** Order context (supplier) provides order data to Fulfillment context (customer) via domain events
 
 **3. Conformist**
 - Downstream adopts upstream model completely
 - No translation layer
 - When supplier won't accommodate
+- **Example:** Analytics context conforms to Order context's data structure since the Order team won't modify their model for reporting needs
 
 **4. Anticorruption Layer**
 - Translation layer protects downstream
 - Use with legacy/external systems
 - Low coupling, high effort
 - Components: Service → Façade → Adapter → Translator
+- **Example:** Modern Order context uses ACL to translate legacy mainframe's COBOL data structures into domain objects
 
 **5. Separate Ways**
 - No integration - complete independence
 - When integration costs exceed benefits
+- **Example:** Customer Support context manually enters order IDs rather than integrating with Order context because integration complexity outweighs benefits
 
 **6. Open Host Service**
 - Standard API for multiple clients
 - One protocol vs. many translators
+- **Example:** Product Catalog context exposes REST API that multiple contexts (Shopping, Reporting, Inventory) consume using the same interface
 
 **7. Published Language**
 - Common exchange format (XML, JSON schema)
 - Often used with Open Host Service
+- **Example:** All contexts exchange order information using a standardized JSON schema with agreed-upon field names and data types
 
 ## 17. Subdomain
 
