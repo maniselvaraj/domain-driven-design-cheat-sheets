@@ -57,29 +57,78 @@ The Domain-Driven Design implementation follows six main phases:
 
 Event Storming is a collaborative modeling technique used in Phase 1 (Domain Discovery).
 
-### Process Phases
+**Goal:** Create a shared understanding of the business domain by visualizing the complete business process flow as a timeline of domain events. The output helps identify bounded contexts, aggregate boundaries, and business workflows.
 
-1. **Chaotic Exploration**
-   - Create as many domain events as possible
-   - No restrictions or order initially
-   - Everyone contributes simultaneously
+### The Event Storming Workshop
 
-2. **Timeline Enforcement**
-   - Organize events chronologically
-   - Remove duplicates
-   - Establish temporal relationships
+**Who participates:** Domain experts, developers, business stakeholders, and anyone with domain knowledge (10+ people can work in parallel).
 
-3. **Parallel Activities Identification**
-   - Group related events into swim lanes
-   - Identify concurrent processes
-   - Recognize different areas of the domain
+**Materials needed:** Large wall space, colored sticky notes (orange, blue, yellow, green, lilac, pink), markers.
 
-4. **Pivotal Event Identification**
-   - Identify events that significantly change the state of the domain
-   - Mark decision points
-   - Highlight state transitions
+**Duration:** Typically 4-8 hours for initial modeling, with follow-up sessions for refinement.
 
-### Key Elements
+### Process: Four Sequential Phases
+
+#### Phase 1: Chaotic Exploration (Big Picture)
+
+**Steps:**
+1. Ask everyone to write domain events (things that happened in the domain)
+2. Place orange sticky notes on the wall in any order
+3. Generate as many events as possible without restrictions
+4. Everyone contributes simultaneously - no discussion yet
+
+**Output:**
+- Unordered collection of domain events
+- Many duplicates and gaps
+- Raw business knowledge captured
+
+#### Phase 2: Timeline Enforcement
+
+**Steps:**
+1. Organize events chronologically from left to right
+2. Remove duplicate events
+3. Identify missing events (gaps in the timeline)
+4. Establish temporal relationships ("X happens before Y")
+5. Discuss and resolve conflicting interpretations
+
+**Output:**
+- Chronological timeline of domain events
+- Cleaned, de-duplicated event list
+- Shared understanding of business flow
+
+#### Phase 3: Parallel Activities Identification
+
+**Steps:**
+1. Group related events into horizontal swim lanes
+2. Identify concurrent processes that happen in parallel
+3. Recognize different areas/subdomains of the business
+4. Add commands (blue) that trigger events
+5. Add actors (small yellow) who issue commands
+6. Add policies (lilac) that react to events automatically
+
+**Output:**
+- Swim lanes representing different business areas
+- Commands and actors linked to events
+- Business rules and automated reactions identified
+
+#### Phase 4: Pivotal Events & Bounded Context Discovery
+
+**Steps:**
+1. Identify pivotal events (major state changes or decision points)
+2. Mark boundaries where context or language changes
+3. Identify aggregates (large yellow) that handle commands and produce events
+4. Add read models (green) showing information needs
+5. Mark external systems (pink) that interact with the domain
+6. Draw boundaries around cohesive areas → these become bounded context candidates
+
+**Output:**
+- Pivotal events marked
+- Candidate bounded contexts identified
+- Aggregates and their responsibilities
+- Integration points with external systems
+- Foundation for strategic design phase
+
+### Key Elements Used in Event Storming
 
 Event Storming uses different colored sticky notes to represent different concepts:
 
@@ -100,14 +149,9 @@ For a complete definition of domain events, see [Definitions - Domain Events](de
 
 #### Commands (Blue Sticky Notes)
 
-**Definition:** A command is an intention or request to perform an action in the system. It represents what a user or system wants to do, which may succeed or fail.
+Commands represent intentions or requests to perform actions in the system. They are named with imperative verbs (e.g., "Place Order", "Cancel Subscription", "Process Payment") and can succeed or fail based on business rules.
 
-**Characteristics:**
-- **Imperative naming**: Named with imperative verbs in present tense (e.g., "PlaceOrder", "ProcessPayment", "RegisterCustomer")
-- **Can be rejected**: Unlike events, commands can fail if business rules are violated
-- **Trigger events**: Successful commands typically result in one or more domain events
-- **Express intent**: Represents a desire to change the system's state
-- **User/system initiated**: Comes from actors (users, external systems, time-based triggers)
+**Purpose in Event Storming:** Commands help identify the triggers for domain events and reveal business processes and user interactions.
 
 **Examples:**
 - "Place Order"
@@ -119,9 +163,8 @@ For a complete definition of domain events, see [Definitions - Domain Events](de
 **Command → Event Relationship:**
 - Command: "Place Order" → Event: "Order Placed" (if successful)
 - Command: "Process Payment" → Events: "Payment Authorized", "Payment Captured" OR "Payment Failed"
-- Command: "Register Customer" → Event: "Customer Registered"
 
-**Purpose in Event Storming:** Commands help identify the triggers for domain events and reveal business processes and user interactions.
+For a complete definition of commands, see [Definitions - Commands](definitions.md#21-commands).
 
 #### Other Event Storming Elements
 

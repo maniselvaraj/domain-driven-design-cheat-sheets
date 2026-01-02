@@ -21,6 +21,8 @@
 17. [Subdomain](#17-subdomain)
 18. [Distillation Process](#18-distillation-process)
 19. [Types of Domains](#19-types-of-domains)
+20. [Domain Events](#20-domain-events)
+21. [Commands](#21-commands)
 
 ## 1. Domain-Driven Design (DDD)
 
@@ -717,3 +719,35 @@ The core domain is determined by asking: "What is our competitive advantage?" In
 - "Inventory Depleted" - Product stock reached zero
 
 **Integration Use:** Domain events are the primary mechanism for bounded contexts to communicate - one context publishes events, others subscribe and react.
+
+## 21. Commands
+
+**Definition:** A command is an intention or request to perform an action in the system. It represents what a user or system wants to do, which may succeed or fail.
+
+**Characteristics:**
+- **Imperative naming:** Named with imperative verbs in present tense (e.g., "PlaceOrder", "ProcessPayment", "RegisterCustomer")
+- **Can be rejected:** Unlike events, commands can fail if business rules are violated
+- **Trigger events:** Successful commands typically result in one or more domain events
+- **Express intent:** Represents a desire to change the system's state
+- **User/system initiated:** Comes from actors (users, external systems, time-based triggers)
+
+**Command → Event Relationship:**
+
+Commands represent intent (what we want to happen), while events represent facts (what actually happened):
+- Command: "Place Order" → Event: "Order Placed" (if successful)
+- Command: "Process Payment" → Events: "Payment Authorized", "Payment Captured" OR "Payment Failed"
+- Command: "Register Customer" → Event: "Customer Registered"
+- Command: "Cancel Subscription" → Event: "Subscription Cancelled"
+
+**Examples:**
+- "Place Order" - Customer wants to complete purchase
+- "Cancel Subscription" - User requests subscription termination
+- "Add Item to Cart" - User adds product to shopping cart
+- "Process Refund" - Support agent initiates refund
+- "Update Inventory" - System updates stock levels
+
+**Key Difference from Events:**
+- Commands can **fail** (rejected by business rules)
+- Events **always succeed** (they already happened)
+- Commands are **requests** (imperative: "do this")
+- Events are **facts** (past tense: "this happened")
