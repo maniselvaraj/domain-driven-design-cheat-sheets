@@ -5,118 +5,100 @@
 │                          ONLINE PHOTO PRINTING SERVICE - DDD CONTEXT MAP                     │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
 
-                                    CORE DOMAINS (⭐)
+                                    CORE DOMAIN (⭐)
                     ┌──────────────────────────────────────────────────┐
                     │                                                  │
                     │                                                  │
-      ┌─────────────▼──────────────┐              ┌──────────────────▼────────────┐
-      │  ⭐ PHOTO LIBRARY CONTEXT  │              │  ⭐ ORDERING CONTEXT           │
-      │  (Core Domain)             │              │  (Core Domain)                 │
-      ├────────────────────────────┤              ├───────────────────────────────┤
-      │ Aggregates:                │              │ Aggregates:                   │
-      │ • Photo                    │              │ • Cart                        │
-      │   - photoId                │              │   - cartId                    │
-      │   - userId                 │              │   - CartItem entities         │
-      │   - qualityStatus          │              │ • Order                       │
-      │   - ImageMetadata (VO)     │              │   - orderId                   │
-      │   - EditHistory (VO)       │              │   - OrderLine entities        │
-      │ • Album                    │              │   - ShippingAddress (VO)      │
-      │   - albumId                │              │   - OrderSummary (VO)         │
-      │   - photoReferences        │              │                               │
-      │                            │              │ Services:                     │
-      │ Services:                  │              │ • OrderPlacementService       │
-      │ • PhotoValidationService   │              │                               │
-      │ • CloudImportService       │              │ Events Published:             │
-      │                            │──────────────┤ • OrderPlaced                 │
-      │ Events Published:          │  Customer-   │ • OrderPaid                   │
-      │ • PhotoUploaded            │  Supplier    │ • OrderCancelled              │
-      │ • PhotoValidated           │              │ • OrderStatusChanged          │
-      │ • PhotoEdited              │              │                               │
-      └────────────────────────────┘              └───────────────┬───────────────┘
-                    │                                             │
-                    │                                             │
-                    │                                             │
-                    │                          ┌──────────────────▼────────────┐
-                    │                          │  ⭐ FULFILLMENT CONTEXT       │
-                    │                          │  (Core Domain)                │
-                    │                          ├───────────────────────────────┤
-                    │                          │ Aggregates:                   │
-                    │                          │ • PrintJob                    │
-                    └──────────────────────────┤   - printJobId                │
-                                    Customer-  │   - orderId (ref)             │
-                                    Supplier   │   - PrintSpecification (VO)   │
-                                               │   - QualityCheckResult (VO)   │
-                                               │   - ReprintReason (VO)        │
-                                               │                               │
-                                               │ Services:                     │
-                                               │ • PrintPartnerService (ACL)   │
-                                               │ • QualityAssuranceService     │
-                                               │                               │
-                                               │ Events Published:             │
-                                               │ • PrintJobSubmitted           │
-                                               │ • PrintJobCompleted           │
-                                               │ • ReprintRequested            │
-                                               └───────────────┬───────────────┘
-                                                               │
-                                                               │ Customer-
-                                                               │ Supplier
-                                                               │
-                                                               ▼
+      ┌─────────────▼──────────────────────────────────────────────────▼─────────────┐
+      │  ⭐ PHOTO-TO-PRODUCT ORDERING CONTEXT                                         │
+      │  (Core Domain)                                                                │
+      ├───────────────────────────────────────────────────────────────────────────────┤
+      │ Aggregates:                                                                   │
+      │ • Photo                                                                       │
+      │   - photoId, userId, qualityStatus                                            │
+      │   - ImageMetadata (VO), EditHistory (VO)                                      │
+      │ • Album                                                                       │
+      │   - albumId, photoReferences                                                  │
+      │ • Cart                                                                        │
+      │   - cartId, CartItem entities                                                 │
+      │ • Order                                                                       │
+      │   - orderId, OrderLine entities                                               │
+      │   - ShippingAddress (VO), OrderSummary (VO)                                   │
+      │                                                                               │
+      │ Services:                                                                     │
+      │ • PhotoValidationService, CloudImportService, OrderPlacementService           │
+      │                                                                               │
+      │ Events Published:                                                             │
+      │ • PhotoUploaded, PhotoValidated, PhotoEdited                                  │
+      │ • OrderPlaced, OrderPaid, OrderCancelled, OrderStatusChanged                  │
+      └───────────────────────────────────────┬───────────────────────────────────────┘
+                                              │
+                                              │ Customer-
+                                              │ Supplier
+                                              │
+                                              ▼
                           SUPPORTING & GENERIC DOMAINS
-                    ┌────────────────────────────────────────────────────┐
-                    │                                                    │
-      ┌─────────────▼──────────────┐              ┌────────────────────▼───────────┐
-      │  CUSTOMER CONTEXT          │              │  DELIVERY CONTEXT              │
+      ┌───────────────────────────────────────────────────────────────────────────┐
+      │                                                                           │
+      │                                                                           │
+      ┌─────────────▼──────────────┐              ┌──────────────────▼────────────┐
+      │  FULFILLMENT CONTEXT       │              │  DELIVERY CONTEXT              │
       │  (Supporting)              │              │  (Supporting)                  │
       ├────────────────────────────┤              ├────────────────────────────────┤
       │ Aggregates:                │              │ Aggregates:                    │
-      │ • Customer                 │              │ • Delivery                     │
-      │   - customerId             │              │   - deliveryId                 │
-      │   - email                  │              │   - orderId (ref)              │
-      │   - Address (VO)           │              │   - courierPartner             │
-      │   - CommunicationPrefs(VO) │              │   - trackingNumber             │
-      │                            │              │   - DeliveryAddress (VO)       │
-      │ Services:                  │              │   - DeliveryOption (VO)        │
-      │ • AuthenticationService    │              │   - DeliveryAttempt (VO)       │
-      │                            │              │                                │
-      │ Events Published:          │              │ Services:                      │
-      │ • UserRegistered           │              │ • CourierIntegrationService    │
-      │ • UserAuthenticated        │              │   (ACL)                        │
-      │                            │              │                                │
-      └────────────┬───────────────┘              │ Events Published:              │
-                   │                              │ • DeliveryDispatched           │
-                   │ Customer-                    │ • DeliveryCompleted            │
-                   │ Supplier                     │ • DeliveryFailed               │
-                   │                              └────────────────────────────────┘
-                   │
-                   │
-      ┌────────────▼───────────────┐              ┌────────────────────────────────┐
-      │  CATALOG CONTEXT           │              │  PAYMENT CONTEXT               │
-      │  (Supporting)              │              │  (Generic)                     │
+      │ • PrintJob                 │              │ • Delivery                     │
+      │   - printJobId             │              │   - deliveryId                 │
+      │   - orderId (ref)          │              │   - orderId (ref)              │
+      │   - PrintSpecification(VO) │              │   - courierPartner             │
+      │   - QualityCheckResult(VO) │              │   - trackingNumber             │
+      │   - ReprintReason (VO)     │              │   - DeliveryAddress (VO)       │
+      │                            │              │   - DeliveryOption (VO)        │
+      │ Services:                  │              │   - DeliveryAttempt (VO)       │
+      │ • PrintPartnerService(ACL) │              │                                │
+      │ • QualityAssuranceService  │              │ Services:                      │
+      │                            │──────────────┤ • CourierIntegrationService    │
+      │ Events Published:          │  Customer-   │   (ACL)                        │
+      │ • PrintJobSubmitted        │  Supplier    │                                │
+      │ • PrintJobCompleted        │              │ Events Published:              │
+      │ • ReprintRequested         │              │ • DeliveryDispatched           │
+      │                            │              │ • DeliveryCompleted            │
+      └────────────────────────────┘              │ • DeliveryFailed               │
+                                                  └────────────────────────────────┘
+
+      ┌─────────────────────────────┐              ┌────────────────────────────────┐
+      │  CUSTOMER CONTEXT          │              │  CATALOG CONTEXT               │
+      │  (Supporting)              │              │  (Supporting)                  │
       ├────────────────────────────┤              ├────────────────────────────────┤
       │ Aggregates:                │              │ Aggregates:                    │
-      │ • Product                  │              │ • Payment                      │
-      │   - productId              │              │   - paymentId                  │
-      │   - ProductVariant entity  │              │   - orderId (ref)              │
-      │   - PriceRule (VO)         │              │   - amount                     │
-      │   - SizeSpecification (VO) │              │   - status                     │
-      │                            │              │   - PaymentToken (VO)          │
-      │ Services:                  │──────────────│   - RefundDetails (VO)         │
-      │ • PricingService           │  Customer-   │                                │
-      │                            │  Supplier    │ Services:                      │
-      │ Events Published:          │              │ • PaymentGatewayService (ACL)  │
-      │ • ProductPriceChanged      │              │                                │
-      │ • ProductAvailabilityChg   │              │ Events Published:              │
-      │                            │              │ • PaymentAuthorized            │
-      └────────────────────────────┘              │ • PaymentCaptured              │
-                                                  │ • PaymentFailed                │
-                                                  │ • RefundIssued                 │
-                                                  └─────────────┬──────────────────┘
-                                                                │
-                                                                │ Consumes
-                                                                │ events from
-                                                                │ Ordering
-                                                                │
+      │ • Customer                 │              │ • Product                      │
+      │   - customerId             │              │   - productId                  │
+      │   - email                  │              │   - ProductVariant entity      │
+      │   - Address (VO)           │              │   - PriceRule (VO)             │
+      │   - CommunicationPrefs(VO) │──────────────┤   - SizeSpecification (VO)     │
+      │                            │  Customer-   │                                │
+      │ Services:                  │  Supplier    │ Services:                      │
+      │ • AuthenticationService    │              │ • PricingService               │
+      │                            │              │                                │
+      │ Events Published:          │              │ Events Published:              │
+      │ • UserRegistered           │              │ • ProductPriceChanged          │
+      │ • UserAuthenticated        │              │ • ProductAvailabilityChg       │
+      └────────────────────────────┘              └────────────────────────────────┘
+
+      ┌─────────────────────────────────────────────────────────────────────┐
+      │  PAYMENT CONTEXT                                                    │
+      │  (Generic)                                                          │
+      ├─────────────────────────────────────────────────────────────────────┤
+      │ Aggregates:                                                         │
+      │ • Payment                                                           │
+      │   - paymentId, orderId (ref), amount, status                        │
+      │   - PaymentToken (VO), RefundDetails (VO)                           │
+      │                                                                     │
+      │ Services:                                                           │
+      │ • PaymentGatewayService (ACL)                                       │
+      │                                                                     │
+      │ Events Published:                                                   │
+      │ • PaymentAuthorized, PaymentCaptured, PaymentFailed, RefundIssued   │
+      └─────────────────────────────────────────────────────────────────────┘
 ┌───────────────────────────────────────────────────────────────┼──────────────────────────┐
 │                            CROSS-CUTTING CONTEXTS             │                          │
 ├───────────────────────────────────────────────────────────────┼──────────────────────────┤
@@ -184,18 +166,16 @@ Open Host Service = Standard API for multiple consumers
 
 KEY INTEGRATION FLOWS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Customer → Ordering: User identity reference
-2. Photo Library → Ordering: Photo validation before order
-3. Photo Library → Fulfillment: Photo data for print specs
-4. Catalog → Ordering: Product pricing and configuration
-5. Ordering → Payment: Payment authorization trigger
-6. Payment → Ordering: Payment confirmation
-7. Ordering → Fulfillment: Print job creation after payment
-8. Fulfillment → Delivery: Delivery scheduling after print completion
-9. All Contexts → Engagement: Event-driven notifications
-10. All Contexts → Insights: Event streaming for analytics
-11. Support → Multiple: Query access for issue resolution
-12. External Systems: Protected by ACL pattern
+1. Customer → Photo-to-Product Ordering: User identity reference
+2. Catalog → Photo-to-Product Ordering: Product pricing and configuration
+3. Photo-to-Product Ordering → Payment: Payment authorization trigger
+4. Payment → Photo-to-Product Ordering: Payment confirmation
+5. Photo-to-Product Ordering → Fulfillment: Print job creation with photo specs after payment
+6. Fulfillment → Delivery: Delivery scheduling after print completion
+7. All Contexts → Engagement: Event-driven notifications
+8. All Contexts → Insights: Event streaming for analytics
+9. Support → Multiple: Query access for issue resolution
+10. External Systems: Protected by ACL pattern (Print Partners, Payment Gateways, Couriers)
 
 CONTEXT BOUNDARIES:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

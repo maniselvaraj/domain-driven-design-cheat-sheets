@@ -54,31 +54,22 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 
 **Responsibilities:** User identity, profiles, authentication, preferences
 
-### 2. **Photo Processing & Library** (Core Domain)
+### 2. **Photo-to-Product Ordering** (Core Domain)
 
 **Type:** Core
 
-**Justification:** The ability to ingest, validate, and prepare photos for printing is central to the business value. Quality checks and format handling are proprietary.
+**Justification:** This is THE competitive differentiator - the seamless experience of transforming customer photos into configured print products. Combines photo management, product configuration, quality validation, and order orchestration into a cohesive customer journey. This is why customers choose this service over competitors.
 
-**Responsibilities:** Photo upload, validation, storage, editing, quality assessment
+**Responsibilities:**
+- Photo upload, validation, and quality assessment
+- Product catalog and print configuration
+- Photo-to-product mapping and preview
+- Order placement with photo specifications
+- Order lifecycle and status tracking
 
-### 3. **Product Catalog** (Supporting Subdomain)
+**Why Core:** The ability to make it easy, fast, and reliable for customers to go from "I have photos" to "I have ordered exactly what I want" is the primary business value and competitive advantage.
 
-**Type:** Supporting
-
-**Justification:** Required for business operations but catalog management itself is not unique.
-
-**Responsibilities:** Product definitions, pricing, print configurations
-
-### 4. **Order Management** (Core Domain)
-
-**Type:** Core
-
-**Justification:** Converting customer intent into print orders with proper configuration is critical business logic.
-
-**Responsibilities:** Cart, order placement, order lifecycle, status tracking
-
-### 5. **Payment Processing** (Generic Subdomain)
+### 3. **Payment Processing** (Generic Subdomain)
 
 **Type:** Generic
 
@@ -86,15 +77,15 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 
 **Responsibilities:** Payment authorization, capture, refunds
 
-### 6. **Print Fulfillment** (Core Domain)
+### 4. **Print Fulfillment** (Supporting Subdomain)
 
-**Type:** Core
+**Type:** Supporting
 
-**Justification:** Managing print production, quality, and partner coordination is a key differentiator.
+**Justification:** While important, actual printing is typically outsourced to third-party vendors. The business coordinates with print partners but doesn't differentiate on printing capability itself. Managing partner relationships and quality standards is necessary but not the core innovation.
 
-**Responsibilities:** Print job submission, production tracking, quality assurance, reprints
+**Responsibilities:** Print job submission to partners, production tracking, quality assurance, reprints
 
-### 7. **Delivery & Logistics** (Supporting Subdomain)
+### 5. **Delivery & Logistics** (Supporting Subdomain)
 
 **Type:** Supporting
 
@@ -102,7 +93,7 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 
 **Responsibilities:** Delivery scheduling, partner integration, tracking
 
-### 8. **Notifications** (Generic Subdomain)
+### 6. **Notifications** (Generic Subdomain)
 
 **Type:** Generic
 
@@ -110,7 +101,7 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 
 **Responsibilities:** Email, SMS, push notifications
 
-### 9. **Customer Support** (Supporting Subdomain)
+### 7. **Customer Support** (Supporting Subdomain)
 
 **Type:** Supporting
 
@@ -118,7 +109,7 @@ The domain encompasses the entire ecosystem of converting digital photos into ph
 
 **Responsibilities:** Ticket management, issue resolution, refunds/reprints
 
-### 10. **Analytics & Insights** (Supporting Subdomain)
+### 8. **Analytics & Insights** (Supporting Subdomain)
 
 **Type:** Supporting
 

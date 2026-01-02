@@ -353,64 +353,58 @@
                     <text class="aggregate-label" x="80" y="195" font-size="9">- Authentication</text>
                 </g>
                 
-                <!-- Photo Library Context -->
-                <g id="photo-context">
-                    <rect class="bounded-context core" x="380" y="50" width="280" height="280" rx="5"/>
-                    <text class="context-label" x="520" y="80" text-anchor="middle">Photo Library Context</text>
-                    <text class="context-type" x="520" y="95" text-anchor="middle">[Core Domain]</text>
-                    
+                <!-- Photo-to-Product Ordering Context (Core Domain) -->
+                <g id="ordering-context">
+                    <rect class="bounded-context core" x="380" y="50" width="610" height="330" rx="5"/>
+                    <text class="context-label" x="685" y="80" text-anchor="middle">Photo-to-Product Ordering Context</text>
+                    <text class="context-type" x="685" y="95" text-anchor="middle">[Core Domain]</text>
+
                     <!-- Photo Aggregate -->
-                    <rect class="aggregate-box" x="400" y="110" width="240" height="100" rx="3"/>
-                    <text class="aggregate-label" x="520" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
-                    <text class="aggregate-label" x="520" y="145" text-anchor="middle">Photo</text>
+                    <rect class="aggregate-box" x="400" y="110" width="270" height="100" rx="3"/>
+                    <text class="aggregate-label" x="535" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="535" y="145" text-anchor="middle">Photo</text>
                     <text class="aggregate-label" x="410" y="165" font-size="9">- ImageMetadata (VO)</text>
                     <text class="aggregate-label" x="410" y="180" font-size="9">- EditHistory (VO)</text>
                     <text class="aggregate-label" x="410" y="195" font-size="9">- QualityStatus</text>
-                    
+
                     <!-- Album Aggregate -->
-                    <rect class="aggregate-box" x="400" y="220" width="240" height="90" rx="3"/>
-                    <text class="aggregate-label" x="520" y="240" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
-                    <text class="aggregate-label" x="520" y="255" text-anchor="middle">Album</text>
-                    <text class="aggregate-label" x="410" y="275" font-size="9">- PhotoReferences</text>
-                    <text class="aggregate-label" x="410" y="290" font-size="9">- Metadata</text>
+                    <rect class="aggregate-box" x="700" y="110" width="270" height="100" rx="3"/>
+                    <text class="aggregate-label" x="835" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="835" y="145" text-anchor="middle">Album</text>
+                    <text class="aggregate-label" x="710" y="165" font-size="9">- PhotoReferences</text>
+                    <text class="aggregate-label" x="710" y="180" font-size="9">- Metadata</text>
+                    <text class="aggregate-label" x="710" y="195" font-size="9">- Sharing Settings</text>
+
+                    <!-- Cart Aggregate -->
+                    <rect class="aggregate-box" x="400" y="230" width="270" height="100" rx="3"/>
+                    <text class="aggregate-label" x="535" y="250" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="535" y="265" text-anchor="middle">Cart</text>
+                    <text class="aggregate-label" x="410" y="285" font-size="9">- CartItem (Entity)</text>
+                    <text class="aggregate-label" x="410" y="300" font-size="9">- PromoCode (VO)</text>
+                    <text class="aggregate-label" x="410" y="315" font-size="9">- expiresAt</text>
+
+                    <!-- Order Aggregate -->
+                    <rect class="aggregate-box" x="700" y="230" width="270" height="110" rx="3"/>
+                    <text class="aggregate-label" x="835" y="250" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="835" y="265" text-anchor="middle">Order</text>
+                    <text class="aggregate-label" x="710" y="285" font-size="9">- OrderLine (Entity)</text>
+                    <text class="aggregate-label" x="710" y="300" font-size="9">- ShippingAddress (VO)</text>
+                    <text class="aggregate-label" x="710" y="315" font-size="9">- OrderSummary (VO)</text>
+                    <text class="aggregate-label" x="710" y="330" font-size="9">- OrderStatus</text>
                 </g>
-                
+
                 <!-- Catalog Context -->
                 <g id="catalog-context">
-                    <rect class="bounded-context supporting" x="710" y="50" width="280" height="180" rx="5"/>
-                    <text class="context-label" x="850" y="80" text-anchor="middle">Catalog Context</text>
-                    <text class="context-type" x="850" y="95" text-anchor="middle">[Supporting Subdomain]</text>
-                    
-                    <rect class="aggregate-box" x="730" y="110" width="240" height="100" rx="3"/>
-                    <text class="aggregate-label" x="850" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
-                    <text class="aggregate-label" x="850" y="145" text-anchor="middle">Product</text>
-                    <text class="aggregate-label" x="740" y="165" font-size="9">- ProductVariant (Entity)</text>
-                    <text class="aggregate-label" x="740" y="180" font-size="9">- PriceRule (VO)</text>
-                    <text class="aggregate-label" x="740" y="195" font-size="9">- SizeSpecification (VO)</text>
-                </g>
-                
-                <!-- Ordering Context -->
-                <g id="ordering-context">
-                    <rect class="bounded-context core" x="380" y="380" width="610" height="280" rx="5"/>
-                    <text class="context-label" x="685" y="410" text-anchor="middle">Ordering Context</text>
-                    <text class="context-type" x="685" y="425" text-anchor="middle">[Core Domain]</text>
-                    
-                    <!-- Cart Aggregate -->
-                    <rect class="aggregate-box" x="400" y="440" width="270" height="100" rx="3"/>
-                    <text class="aggregate-label" x="535" y="460" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
-                    <text class="aggregate-label" x="535" y="475" text-anchor="middle">Cart</text>
-                    <text class="aggregate-label" x="410" y="495" font-size="9">- CartItem (Entity)</text>
-                    <text class="aggregate-label" x="410" y="510" font-size="9">- PromoCode (VO)</text>
-                    <text class="aggregate-label" x="410" y="525" font-size="9">- expiresAt</text>
-                    
-                    <!-- Order Aggregate -->
-                    <rect class="aggregate-box" x="700" y="440" width="270" height="110" rx="3"/>
-                    <text class="aggregate-label" x="835" y="460" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
-                    <text class="aggregate-label" x="835" y="475" text-anchor="middle">Order</text>
-                    <text class="aggregate-label" x="710" y="495" font-size="9">- OrderLine (Entity)</text>
-                    <text class="aggregate-label" x="710" y="510" font-size="9">- ShippingAddress (VO)</text>
-                    <text class="aggregate-label" x="710" y="525" font-size="9">- OrderSummary (VO)</text>
-                    <text class="aggregate-label" x="710" y="540" font-size="9">- OrderStatus</text>
+                    <rect class="bounded-context supporting" x="1040" y="50" width="280" height="180" rx="5"/>
+                    <text class="context-label" x="1180" y="80" text-anchor="middle">Catalog Context</text>
+                    <text class="context-type" x="1180" y="95" text-anchor="middle">[Supporting Subdomain]</text>
+
+                    <rect class="aggregate-box" x="1060" y="110" width="240" height="100" rx="3"/>
+                    <text class="aggregate-label" x="1180" y="130" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
+                    <text class="aggregate-label" x="1180" y="145" text-anchor="middle">Product</text>
+                    <text class="aggregate-label" x="1070" y="165" font-size="9">- ProductVariant (Entity)</text>
+                    <text class="aggregate-label" x="1070" y="180" font-size="9">- PriceRule (VO)</text>
+                    <text class="aggregate-label" x="1070" y="195" font-size="9">- SizeSpecification (VO)</text>
                 </g>
                 
                 <!-- Payment Context -->
@@ -429,9 +423,9 @@
                 
                 <!-- Fulfillment Context -->
                 <g id="fulfillment-context">
-                    <rect class="bounded-context core" x="380" y="710" width="280" height="180" rx="5"/>
+                    <rect class="bounded-context supporting" x="380" y="710" width="280" height="180" rx="5"/>
                     <text class="context-label" x="520" y="740" text-anchor="middle">Fulfillment Context</text>
-                    <text class="context-type" x="520" y="755" text-anchor="middle">[Core Domain]</text>
+                    <text class="context-type" x="520" y="755" text-anchor="middle">[Supporting Subdomain]</text>
                     
                     <rect class="aggregate-box" x="400" y="770" width="240" height="100" rx="3"/>
                     <text class="aggregate-label" x="520" y="790" text-anchor="middle" font-weight="700">«Aggregate Root»</text>
@@ -498,28 +492,24 @@
                 </g>
                 
                 <!-- RELATIONSHIPS -->
-                
-                <!-- Customer -> Ordering (U-D) -->
-                <line class="relationship-line" x1="190" y1="230" x2="380" y2="480" marker-end="url(#arrowhead)"/>
-                <text class="relationship-label" x="280" y="340">U</text>
-                <rect class="pattern-badge" x="260" y="360" width="40" height="16" rx="3"/>
-                <text class="pattern-label" x="280" y="371" text-anchor="middle">D</text>
-                
-                <!-- Photo -> Ordering (U-D) -->
-                <line class="relationship-line" x1="520" y1="330" x2="520" y2="380" marker-end="url(#arrowhead)"/>
-                <text class="relationship-label" x="540" y="360">U</text>
-                
-                <!-- Catalog -> Ordering (U-D) -->
-                <line class="relationship-line" x1="850" y1="230" x2="850" y2="380" marker-end="url(#arrowhead)"/>
-                <text class="relationship-label" x="870" y="300">U</text>
-                
+
+                <!-- Customer -> Photo-to-Product Ordering (U-D) -->
+                <line class="relationship-line" x1="190" y1="230" x2="380" y2="280" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="280" y="250">U</text>
+                <rect class="pattern-badge" x="260" y="260" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="280" y="271" text-anchor="middle">D</text>
+
+                <!-- Catalog -> Photo-to-Product Ordering (U-D) -->
+                <line class="relationship-line" x1="1040" y1="140" x2="990" y2="140" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="1010" y="130">U</text>
+
                 <!-- Cart -> Order (within context) -->
-                <line class="relationship-line" x1="670" y1="490" x2="700" y2="490" marker-end="url(#arrowhead)"/>
-                <text class="relationship-label" x="685" y="480" text-anchor="middle" font-size="9">checkout</text>
-                
-                <!-- Ordering -> Payment (U-D) -->
-                <line class="relationship-line" x1="990" y1="490" x2="1040" y2="490" marker-end="url(#arrowhead)"/>
-                <text class="relationship-label" x="1015" y="480">U</text>
+                <line class="relationship-line" x1="670" y1="280" x2="700" y2="280" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="685" y="270" text-anchor="middle" font-size="9">checkout</text>
+
+                <!-- Photo-to-Product Ordering -> Payment (U-D) -->
+                <line class="relationship-line" x1="990" y1="300" x2="1040" y2="420" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="1010" y="360">U</text>
                 
                 <!-- Payment -> External Gateway (ACL) -->
                 <line class="relationship-line acl" x1="1300" y1="480" x2="1370" y2="480" marker-end="url(#arrowhead-acl)"/>
@@ -528,9 +518,9 @@
                 <text class="relationship-label" x="1330" y="470" font-size="9">External</text>
                 <text class="relationship-label" x="1330" y="480" font-size="9">Gateway</text>
                 
-                <!-- Ordering -> Fulfillment (U-D) -->
-                <line class="relationship-line" x1="520" y1="660" x2="520" y2="710" marker-end="url(#arrowhead)"/>
-                <text class="relationship-label" x="540" y="690">U</text>
+                <!-- Photo-to-Product Ordering -> Fulfillment (U-D) -->
+                <line class="relationship-line" x1="520" y1="380" x2="520" y2="710" marker-end="url(#arrowhead)"/>
+                <text class="relationship-label" x="540" y="550">U</text>
                 
                 <!-- Fulfillment -> Delivery (U-D) -->
                 <line class="relationship-line" x1="660" y1="810" x2="710" y2="810" marker-end="url(#arrowhead)"/>
@@ -550,23 +540,23 @@
                 <text class="relationship-label" x="1050" y="810" font-size="9">Courier</text>
                 <text class="relationship-label" x="1050" y="820" font-size="9">Services</text>
                 
-                <!-- Support -> Ordering/Fulfillment/Delivery (U-D) -->
-                <line class="relationship-line dashed" x1="1040" y1="800" x2="990" y2="600" marker-end="url(#arrowhead)"/>
-                <rect class="pattern-badge" x="1000" y="680" width="40" height="16" rx="3"/>
-                <text class="pattern-label" x="1020" y="691" text-anchor="middle">D</text>
-                
+                <!-- Support -> Photo-to-Product Ordering/Fulfillment/Delivery (U-D) -->
+                <line class="relationship-line dashed" x1="1040" y1="800" x2="990" y2="380" marker-end="url(#arrowhead)"/>
+                <rect class="pattern-badge" x="1000" y="580" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="1020" y="591" text-anchor="middle">D</text>
+
                 <!-- All -> Engagement (Published Language) -->
-                <line class="relationship-line dashed" x1="990" y1="490" x2="1370" y2="490" marker-end="url(#arrowhead)"/>
-                <rect class="pattern-badge" x="1160" y="500" width="40" height="16" rx="3"/>
-                <text class="pattern-label" x="1180" y="511" text-anchor="middle">PL</text>
-                
+                <line class="relationship-line dashed" x1="990" y1="200" x2="1370" y2="550" marker-end="url(#arrowhead)"/>
+                <rect class="pattern-badge" x="1160" y="370" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="1180" y="381" text-anchor="middle">PL</text>
+
                 <line class="relationship-line dashed" x1="660" y1="820" x2="1370" y2="700" marker-end="url(#arrowhead)"/>
-                
+
                 <!-- All -> Insights (Conformist) -->
-                <line class="relationship-line dashed" x1="380" y1="520" x2="330" y2="710" marker-end="url(#arrowhead)"/>
-                <rect class="pattern-badge conformist" x="280" y="600" width="40" height="16" rx="3"/>
-                <text class="pattern-label" x="300" y="611" text-anchor="middle">CF</text>
-                
+                <line class="relationship-line dashed" x1="380" y1="300" x2="330" y2="710" marker-end="url(#arrowhead)"/>
+                <rect class="pattern-badge conformist" x="280" y="500" width="40" height="16" rx="3"/>
+                <text class="pattern-label" x="300" y="511" text-anchor="middle">CF</text>
+
                 <line class="relationship-line dashed" x1="400" y1="820" x2="330" y2="820" marker-end="url(#arrowhead)"/>
             </svg>
         </div>
