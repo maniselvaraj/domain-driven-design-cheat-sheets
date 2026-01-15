@@ -165,11 +165,14 @@ Domain (The overall business area, e.g., e-commerce)
             ├── Aggregates (consistency boundaries)
             │   ├── Entities (objects with identity)
             │   └── Value Objects (immutable objects)
+            ├── Commands (requests to change state)
             ├── Domain Events (things that happened)
             ├── Services (logic that doesn't fit in entities)
             ├── Factories (complex object creation)
             └── Repositories (persistence abstraction)
 ```
+
+**Flow:** Commands → Aggregates → Domain Events
 
 ### Understanding the Hierarchy
 
@@ -177,7 +180,7 @@ Domain (The overall business area, e.g., e-commerce)
 - **Subdomains**: Logical divisions of the domain (Core, Supporting, Generic)
 - **Bounded Contexts**: Explicit boundaries where models are unified
 - **Domain Model**: The conceptual model within each bounded context
-- **Building Blocks**: Aggregates, Entities, Value Objects, Services, Factories, Repositories
+- **Building Blocks**: Aggregates, Entities, Value Objects, Commands, Domain Events, Services, Factories, Repositories
 
 ## Techniques to Identify Bounded Contexts
 

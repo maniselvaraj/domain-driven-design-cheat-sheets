@@ -780,8 +780,17 @@ Commands represent intent (what we want to happen), while events represent facts
 - "Process Refund" - Support agent initiates refund
 - "Update Inventory" - System updates stock levels
 
-**Key Difference from Events:**
-- Commands can **fail** (rejected by business rules)
-- Events **always succeed** (they already happened)
-- Commands are **requests** (imperative: "do this")
-- Events are **facts** (past tense: "this happened")
+### Commands vs Domain Events
+
+| Aspect | Commands | Domain Events |
+|--------|----------|---------------|
+| **Nature** | Request/intention | Fact/occurrence |
+| **Timing** | Future (what we want to happen) | Past (what already happened) |
+| **Naming** | Imperative verb ("PlaceOrder") | Past tense verb ("OrderPlaced") |
+| **Outcome** | Can succeed or fail | Always succeeded (immutable fact) |
+| **Cardinality** | One command → one handler | One event → many subscribers |
+| **Direction** | Sent to a specific target (aggregate) | Published to any interested listener |
+| **Mutability** | Can be rejected/modified before handling | Immutable once published |
+| **Purpose** | Express intent to change state | Record that state changed |
+| **Coupling** | Tight (sender knows receiver) | Loose (publisher doesn't know subscribers) |
+| **Example** | "Process Payment" | "Payment Captured" |
