@@ -517,22 +517,23 @@ In a banking system, contexts separate different aspects of banking operations:
 
 **Key insight:** In Account Operations, "Customer" is merely a reference ID, not a full entity—this context doesn't care about customer addresses or KYC documents, only which account belongs to which customer ID.
 
-### Bounded Context vs Aggregate
+### Bounded Context vs Aggregate vs DDD Service vs SOA Service
 
-| Aspect | Bounded Context | Aggregate |
-|--------|-----------------|-----------|
-| **Scope** | Logical boundary for an entire domain model | Cluster of domain objects within a model |
-| **Purpose** | Defines where a model applies and terms have meaning | Ensures transactional consistency for related objects |
-| **Granularity** | Coarse-grained (contains multiple aggregates) | Fine-grained (single unit of consistency) |
-| **Boundary Type** | Linguistic and conceptual boundary | Transactional and consistency boundary |
-| **Contains** | Entities, Value Objects, Aggregates, Services, Repositories | One Root Entity + related Entities and Value Objects |
-| **Team Alignment** | Typically one team per bounded context | Multiple aggregates owned by same team |
-| **Communication** | Between contexts via integration patterns (ACL, events) | Between aggregates via domain events or services |
-| **Identity** | Has a unique name in the context map | Root entity has unique identity within the context |
-| **Persistence** | May have its own database/schema | Persisted as a single unit (atomic transactions) |
-| **Example** | "Order Management Context", "Inventory Context" | Order Aggregate (Order + OrderLines + ShippingAddress) |
+| Aspect | Bounded Context | Aggregate | DDD Service | SOA Service |
+|--------|-----------------|-----------|-------------|-------------|
+| **Scope** | Logical boundary for an entire domain model | Cluster of domain objects within a model | Stateless operation within a bounded context | Independently deployable business capability |
+| **Purpose** | Defines where a model applies and terms have meaning | Ensures transactional consistency for related objects | Encapsulates domain logic not belonging to entities | Exposes business functionality via network APIs |
+| **Granularity** | Coarse-grained (contains multiple aggregates) | Fine-grained (single unit of consistency) | Fine-grained (single operation or related operations) | Coarse-grained (entire business capability) |
+| **Boundary Type** | Linguistic and conceptual boundary | Transactional and consistency boundary | Behavioral boundary (stateless operations) | Deployment and network boundary |
+| **Contains** | Entities, Value Objects, Aggregates, Services, Repositories | One Root Entity + related Entities and Value Objects | Domain logic, coordinates entities/aggregates | Multiple DDD Services, APIs, data stores |
+| **Team Alignment** | Typically one team per bounded context | Multiple aggregates owned by same team | Part of bounded context team | May span teams or be owned by one team |
+| **Communication** | Between contexts via integration patterns (ACL, events) | Between aggregates via domain events or services | Direct method calls within bounded context | REST, gRPC, messaging over network |
+| **Identity** | Has a unique name in the context map | Root entity has unique identity within the context | Named using ubiquitous language (verb-based) | Has service endpoint/URL |
+| **Persistence** | May have its own database/schema | Persisted as a single unit (atomic transactions) | Stateless (no persistence) | May have its own database |
+| **State** | Contains stateful components | Stateful (maintains invariants) | Stateless | Stateful or stateless |
+| **Example** | "Order Management Context" | Order Aggregate (Order + OrderLines) | TransferFundsService, CalculateShippingCost | PaymentService, OrderManagementService |
 
-**Key Insight:** A Bounded Context is a *strategic* concept that defines model boundaries, while an Aggregate is a *tactical* concept that defines consistency boundaries within a model. One bounded context typically contains multiple aggregates.
+**Key Insight:** A Bounded Context is a *strategic* concept that defines model boundaries, while an Aggregate is a *tactical* concept that defines consistency boundaries within a model. A DDD Service operates at the domain model level within a bounded context, while an SOA Service operates at the distributed system architecture level—an SOA Service might contain multiple bounded contexts or DDD Services within its implementation.
 
 ## 15. Context Map
 
