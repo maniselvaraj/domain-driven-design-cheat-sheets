@@ -244,47 +244,17 @@ Align stream-aligned teams with bounded contexts.
 
 ## How to Identify Domain Types
 
-### Core Domain Tests
-
-**Questions to Ask:**
-- Competitive advantage? (differentiates us)
-- Proprietary knowledge? (unique expertise)
-- Strategic value? (mission-critical)
-- Worth best developers? (justify investment)
-
-**Indicators:**
-- Business strategy mentions it
-- Requires rare expertise
-- Trade secret territory
-- High innovation frequency
-- "Why customers choose us"
-
-### Generic Subdomain Tests
-
-**Questions to Ask:**
-- Universal need? (every business needs this)
-- Can buy? (off-the-shelf exists)
-- Standard solution? (well-understood)
-- Complexity without value? (necessary but not differentiating)
-
-**Indicators:**
-- Books/libraries exist
-- Every system needs it
-- Technical not domain problem
-- "Every company has this"
-
-### Supporting Subdomain Tests
-
-**Questions to Ask:**
-- Business-specific but not core?
-- Can't easily buy? (too customized)
-- Operational necessity? (required but not innovative)
-
-**Indicators:**
-- Process-specific to company
-- Required but not strategic
-- Medium complexity
-- "How we do it, not why we win"
+| Aspect | Core Domain | Supporting Subdomain | Generic Subdomain |
+|--------|-------------|----------------------|-------------------|
+| **Key Question** | Is this our competitive advantage? | Is this business-specific but not core? | Is this a universal need? |
+| **Business Value** | Highest - differentiates us | Medium - required for operations | Low - necessary but not unique |
+| **Uniqueness** | Proprietary, strategic | Company-specific processes | Universal, standard solutions |
+| **Can Buy?** | No | Rarely (too customized) | Yes (off-the-shelf exists) |
+| **Investment** | Maximum - best developers | Moderate - pragmatic approach | Minimal - junior devs or buy |
+| **Expertise Required** | Rare, deep domain knowledge | Moderate business knowledge | Well-understood, books exist |
+| **Innovation Frequency** | High | Medium | Low |
+| **Indicators** | Business strategy mentions it; trade secret territory; "why customers choose us" | Process-specific to company; required but not strategic; "how we do it, not why we win" | Every system needs it; technical not domain problem; "every company has this" |
+| **Examples** | Recommendation engine (Netflix), Trading algorithms (finance), Delivery optimization | Custom workflows, Regulatory compliance, Integration adapters | Authentication, Email, Payment processing, PDF generation |
 
 ## Factory-Repository Workflow
 

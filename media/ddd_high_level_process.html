@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDD High-Level Process</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+
+        /* Horizontal Flow */
+        .flow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        /* Phase Box */
+        .phase {
+            min-width: 220px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--color);
+        }
+
+        .phase-num {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .phase-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #2c3e50;
+        }
+
+        .phase-items {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .phase-items li {
+            padding: 6px 0;
+            font-size: 0.85rem;
+            color: #555;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .phase-items li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--color);
+            font-weight: bold;
+        }
+
+        /* Arrow */
+        .arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 8px;
+            color: #bdc3c7;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Colors */
+        .phase-1 { --color: #e74c3c; }
+        .phase-2 { --color: #f39c12; }
+        .phase-3 { --color: #3498db; }
+        .phase-4 { --color: #9b59b6; }
+        .phase-5 { --color: #1abc9c; }
+        .phase-6 { --color: #34495e; }
+
+        /* Space Labels */
+        .space-label {
+            text-align: center;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .problem-space .space-label {
+            background: #ffeaa7;
+            color: #d68910;
+        }
+
+        .solution-space .space-label {
+            background: #d5f5e3;
+            color: #1e8449;
+        }
+
+        /* Group Wrapper */
+        .space-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .space-phases {
+            display: flex;
+            gap: 0;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            width: 2px;
+            height: 80%;
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #95a5a6;
+            font-size: 0.85rem;
+        }
+
+        .footer span {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Domain-Driven Design Process</h1>
+        <p class="subtitle">Six phases from discovery to continuous refinement</p>
+
+        <div class="flow">
+            <!-- Problem Space -->
+            <div class="space-group problem-space">
+                <div class="space-label">Problem Space</div>
+                <div class="space-phases">
+                    <div class="phase phase-1">
+                        <div class="phase-header">
+                            <div class="phase-num">1</div>
+                            <div class="phase-title">Discovery</div>
+                        </div>
+                        <ul class="phase-items">
+                            <li>Domain expert collaboration</li>
+                            <li>Workshops & interviews</li>
+                            <li>Event Storming</li>
+                            <li>Shared understanding</li>
+                        </ul>
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="phase phase-2">
+                        <div class="phase-header">
+                            <div class="phase-num">2</div>
+                            <div class="phase-title">Strategic Design</div>
+                        </div>
+                        <ul class="phase-items">
+                            <li>Bounded Contexts</li>
+                            <li>Core Domain</li>
+                            <li>Context Map</li>
+                            <li>Ubiquitous Language</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Solution Space -->
+            <div class="space-group solution-space">
+                <div class="space-label">Solution Space</div>
+                <div class="space-phases">
+                    <div class="phase phase-3">
+                        <div class="phase-header">
+                            <div class="phase-num">3</div>
+                            <div class="phase-title">Tactical Design</div>
+                        </div>
+                        <ul class="phase-items">
+                            <li>Entities & Value Objects</li>
+                            <li>Aggregates</li>
+                            <li>Domain Events</li>
+                            <li>Services & Repositories</li>
+                        </ul>
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="phase phase-4">
+                        <div class="phase-header">
+                            <div class="phase-num">4</div>
+                            <div class="phase-title">Integration</div>
+                        </div>
+                        <ul class="phase-items">
+                            <li>Context boundaries</li>
+                            <li>Integration patterns</li>
+                            <li>Anti-Corruption Layers</li>
+                            <li>Communication patterns</li>
+                        </ul>
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="phase phase-5">
+                        <div class="phase-header">
+                            <div class="phase-num">5</div>
+                            <div class="phase-title">Implementation</div>
+                        </div>
+                        <ul class="phase-items">
+                            <li>Models to code</li>
+                            <li>Hexagonal architecture</li>
+                            <li>Bounded contexts</li>
+                            <li>Event-driven patterns</li>
+                        </ul>
+                    </div>
+
+                    <div class="arrow">→</div>
+
+                    <div class="phase phase-6">
+                        <div class="phase-header">
+                            <div class="phase-num">6</div>
+                            <div class="phase-title">Refinement</div>
+                        </div>
+                        <ul class="phase-items">
+                            <li>Review & refactor</li>
+                            <li>Business alignment</li>
+                            <li>Language evolution</li>
+                            <li>Boundary adaptation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <span>🔄 Continuous feedback loop — insights from implementation refine the domain model</span>
+        </div>
+    </div>
+</body>
+</html>
