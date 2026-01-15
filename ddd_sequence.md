@@ -12,6 +12,8 @@
 
 ## High-Level Process
 
+![DDD Process](media/ddd_high_level_process.png)
+
 The Domain-Driven Design implementation follows six main phases:
 
 ### Phase 1: Domain Discovery & Knowledge Crunching
