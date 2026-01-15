@@ -32,6 +32,49 @@ The online photo printing service operates in a competitive market where:
 
 ---
 
+## High Level Process Output
+
+### Phase 2: Strategic Design Outputs
+
+| Output | Description |
+|--------|-------------|
+| **Domain** | Online Photo Printing and Delivery |
+| **Subdomains** | 8 identified: Customer Management, Photo-to-Product Ordering, Payment Processing, Print Fulfillment, Delivery & Logistics, Notifications, Customer Support, Analytics & Insights |
+| **Domain Classification** | Core: Photo-to-Product Ordering · Supporting: Customer Management, Print Fulfillment, Delivery, Support, Analytics · Generic: Payment, Notifications |
+| **Bounded Contexts** | 10 contexts: Customer, Photo Library, Catalog, Ordering, Payment, Fulfillment, Delivery, Engagement, Support, Insights |
+| **Ubiquitous Language** | Defined per context (e.g., Photo, Album, Cart, Order, PrintJob, Delivery) |
+
+### Phase 3: Tactical Design Outputs
+
+| Bounded Context | Aggregates | Key Entities | Key Value Objects | Domain Events |
+|-----------------|------------|--------------|-------------------|---------------|
+| **Customer** | Customer | Customer | Address, CommunicationPreferences | UserRegistered, UserProfileUpdated |
+| **Photo Library** | Photo, Album | Photo, Album | ImageMetadata, EditHistory | PhotoUploaded, PhotoValidated |
+| **Catalog** | Product | Product, ProductVariant | PriceRule, SizeSpecification | ProductPriceChanged |
+| **Ordering** | Cart, Order | Cart, CartItem, Order, OrderLine | PromoCode, ShippingAddress, OrderSummary | OrderPlaced, OrderPaid, OrderCancelled |
+| **Payment** | Payment | Payment | PaymentToken, RefundDetails | PaymentAuthorized, PaymentCaptured, RefundIssued |
+| **Fulfillment** | PrintJob | PrintJob | PrintSpecification, QualityCheckResult | PrintJobSubmitted, PrintJobCompleted |
+| **Delivery** | Delivery | Delivery | DeliveryAddress, DeliveryOption, DeliveryAttempt | DeliveryDispatched, DeliveryCompleted |
+| **Support** | SupportTicket | SupportTicket, TicketInteraction | Resolution | TicketCreated, IssueResolved |
+
+### Phase 4: Integration Outputs
+
+| Integration | Pattern | Direction |
+|-------------|---------|-----------|
+| Customer → Ordering | Customer-Supplier | Events: UserRegistered |
+| Photo Library → Ordering | Customer-Supplier | Events: PhotoValidated |
+| Catalog → Ordering | Customer-Supplier | Events: ProductPriceChanged |
+| Ordering → Payment | Customer-Supplier | Events: PaymentCaptured |
+| Ordering → Fulfillment | Customer-Supplier | Events: OrderPlaced → PrintJobSubmitted |
+| Fulfillment → Delivery | Customer-Supplier | Events: PrintJobCompleted → DeliveryScheduled |
+| Payment → External Gateway | Anticorruption Layer | Stripe, PayPal APIs |
+| Fulfillment → Print Partners | Anticorruption Layer | Partner-specific APIs |
+| Delivery → Couriers | Anticorruption Layer | Courier APIs |
+| All Contexts → Engagement | Published Language | Domain events → Notifications |
+| All Contexts → Insights | Conformist | Domain events → Analytics |
+
+---
+
 ## Domain-Driven Design Application
 
 ### Strategic Design
