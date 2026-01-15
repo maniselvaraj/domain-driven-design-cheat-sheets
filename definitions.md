@@ -179,7 +179,7 @@ A Domain Object is any object that is part of the domain layer and represents co
 
 ## 6. Entity
 
-An Entity is an object that has a distinct identity that remains constant throughout its lifecycle, regardless of changes to its attributes. It's distinguished by its identity rather than its attributes.
+An Entity is an object that **has a distinct identity** that remains constant throughout its lifecycle, regardless of changes to its attributes. It's distinguished by its identity rather than its attributes.
 
 **Characteristics:**
 - Has a unique, persistent identity
@@ -259,7 +259,7 @@ DDD Services and SOA (Service-Oriented Architecture) Services serve different pu
 
 ## 10. Aggregate
 
-An Aggregate is a cluster of associated domain objects (Entities and Value Objects) that are treated as a single unit for data changes. It has a boundary that separates objects inside from those outside, with one Entity serving as the Aggregate Root.
+An Aggregate is a **cluster of associated domain objects (Entities and Value Objects) that are treated as a single unit for data changes**. It has a boundary that separates objects inside from those outside, with one Entity serving as the Aggregate Root.
 
 **Characteristics:**
 - Single unit for changes - all objects in the aggregate are treated as one unit regarding data changes
@@ -267,7 +267,7 @@ An Aggregate is a cluster of associated domain objects (Entities and Value Objec
 - One root entity - only one Entity acts as the root, the sole entry point from outside
 - Root-only external access - external objects can only hold references to the root, not internal objects
 - Enforces invariants - the root is responsible for maintaining all business rules within the aggregate
-- Transactional consistency - changes to the aggregate are atomic (all or nothing)
+- **Transactional consistency** - changes to the aggregate are atomic (all or nothing)
 - Deletion cascade - when the root is deleted, all objects in the aggregate are deleted
 - Local identity for internal entities - internal entities have identity that only makes sense within the aggregate
 
@@ -439,7 +439,7 @@ The set of conditions and boundaries where a model's terms have specific, unambi
 
 ## 14. Bounded Context
 
-**Definition:** The logical boundaries, including the inputs, outputs, events, requirements, processes, and data models, relevant to the subdomain.
+**Definition:** The logical boundaries, including the inputs, outputs, events, requirements, processes, and data models, **relevant to the subdomain.**
 
 An explicit boundary within which a domain model is unified and terms have precise meaning.
 
@@ -516,6 +516,23 @@ In a banking system, contexts separate different aspects of banking operations:
    - **Ubiquitous language:** "Post transaction", "Reconcile balance", "Generate statement"
 
 **Key insight:** In Account Operations, "Customer" is merely a reference ID, not a full entity—this context doesn't care about customer addresses or KYC documents, only which account belongs to which customer ID.
+
+### Bounded Context vs Aggregate
+
+| Aspect | Bounded Context | Aggregate |
+|--------|-----------------|-----------|
+| **Scope** | Logical boundary for an entire domain model | Cluster of domain objects within a model |
+| **Purpose** | Defines where a model applies and terms have meaning | Ensures transactional consistency for related objects |
+| **Granularity** | Coarse-grained (contains multiple aggregates) | Fine-grained (single unit of consistency) |
+| **Boundary Type** | Linguistic and conceptual boundary | Transactional and consistency boundary |
+| **Contains** | Entities, Value Objects, Aggregates, Services, Repositories | One Root Entity + related Entities and Value Objects |
+| **Team Alignment** | Typically one team per bounded context | Multiple aggregates owned by same team |
+| **Communication** | Between contexts via integration patterns (ACL, events) | Between aggregates via domain events or services |
+| **Identity** | Has a unique name in the context map | Root entity has unique identity within the context |
+| **Persistence** | May have its own database/schema | Persisted as a single unit (atomic transactions) |
+| **Example** | "Order Management Context", "Inventory Context" | Order Aggregate (Order + OrderLines + ShippingAddress) |
+
+**Key Insight:** A Bounded Context is a *strategic* concept that defines model boundaries, while an Aggregate is a *tactical* concept that defines consistency boundaries within a model. One bounded context typically contains multiple aggregates.
 
 ## 15. Context Map
 
