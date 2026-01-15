@@ -14,6 +14,9 @@
 
 ![DDD Process](media/ddd_high_level_process.png)
 
+<details>
+<summary>Click to expand phase details</summary>
+
 The Domain-Driven Design implementation follows six main phases:
 
 ### Phase 1: Domain Discovery & Knowledge Crunching
@@ -23,18 +26,20 @@ The Domain-Driven Design implementation follows six main phases:
 - Use Event Storming as a collaborative modeling technique
 
 ### Phase 2: Strategic Design
-- Identify and map bounded contexts (logical groupings of domain models with coherent areas of responsibility)
-- Define the core domain (areas of highest business value)
-- Identify core, supporting, and generic subdomains and their relationships
+- Identify subdomains (logical divisions of the business domain)
+- Classify subdomains as Core, Supporting, or Generic
+- Define bounded contexts (logical groupings with coherent areas of responsibility)
 - Create a context map showing relationships between bounded contexts
 - Establish a ubiquitous language (shared vocabulary)
 
 ### Phase 3: Tactical Design & Domain Modeling
 - Create domain models for each bounded context
-- Identify entities, value objects, aggregates, and domain events
-- Define domain services for complex operations
-- Ensure domain services have a single bounded context responsibility
-- Domain services are good candidates for containerization with independent resource and scaling needs
+- Identify aggregates (consistency boundaries with root entities)
+- Define entities (objects with identity) within aggregates
+- Define value objects (immutable objects defined by attributes)
+- Identify domain events (facts that occurred in the domain)
+- Define domain services for cross-aggregate operations
+- Create factories for complex object creation
 - Establish repositories for persistence access
 
 ### Phase 4: Define Boundaries & Integration
@@ -54,6 +59,8 @@ The Domain-Driven Design implementation follows six main phases:
 - Realign with business as understanding evolves
 - Refine the ubiquitous language
 - Adapt boundaries as the domain knowledge deepens
+
+</details>
 
 ## Event Storming Process
 
