@@ -39,7 +39,7 @@ The online photo printing service operates in a competitive market where:
 | Output | Description |
 |--------|-------------|
 | **Domain** | Online Photo Printing and Delivery |
-| **Subdomains (8)** | • **Core:** Photo-to-Product Ordering <br> • **Supporting:** Customer Management, Print Fulfillment, Delivery & Logistics, Customer Support, Analytics & Insights <br> • **Generic:** Payment Processing, Notifications |
+| **Subdomains (8)** | • **Core:** Photo-to-Product Ordering <br> • **Supporting:** Customer Management <br> , Print Fulfillment <br> , Delivery & Logistics <br> , Customer Support <br> , Analytics & Insights <br> • **Generic:** Payment Processing,  <br> Notifications |
 | **Bounded Contexts (10)** | • Customer <br> • Photo Library <br> • Catalog <br> • Ordering <br> • Payment <br> • Fulfillment <br> • Delivery <br> • Engagement <br> • Support <br> • Insights |
 | **Ubiquitous Language** | Defined per context: <br> • Photo, Album, Validation <br> • Cart, Order, LineItem <br> • PrintJob, PrintSpecification <br> • Delivery, Tracking |
 
